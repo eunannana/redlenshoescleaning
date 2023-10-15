@@ -62,8 +62,9 @@ class _LoginState extends State<Login> {
                         padding: const EdgeInsets.symmetric(horizontal: 50),
                         child: TextFormField(
                           decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.email),
                             hintText: 'Email',
-                            hintStyle: TextStyle(fontStyle: FontStyle.italic),
+                            hintStyle: TextStyle(),
                           ),
                           onChanged: (value) {
                             setState(() {
@@ -99,9 +100,9 @@ class _LoginState extends State<Login> {
                         child: TextFormField(
                           obscureText: !isPasswordVisible,
                           decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.lock),
                             hintText: 'Password',
-                            hintStyle:
-                                const TextStyle(fontStyle: FontStyle.italic),
+                            hintStyle: const TextStyle(),
                             suffixIcon: IconButton(
                               icon: Icon(
                                 isPasswordVisible
@@ -165,12 +166,24 @@ class _LoginState extends State<Login> {
                             }
                           }
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF454BE0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          minimumSize: const Size(280, 50),
+                        style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18))),
+                          minimumSize: MaterialStateProperty.all<Size>(
+                              const Size(280, 50)),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blueAccent),
+                          overlayColor:
+                              MaterialStateProperty.resolveWith<Color?>(
+                                  (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.pressed)) {
+                              return Colors
+                                  .green; // Ganti dengan warna overlay saat tombol ditekan
+                            }
+                            return null;
+                          }),
                         ),
                         child: const Text(
                           'Login',
