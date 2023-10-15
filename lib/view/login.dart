@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:redlenshoescleaning/view/laporan.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  const Login({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-  final _formKey = GlobalKey<FormState>();
-  // final authController = AuthController();
-
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? email;
   String? password;
   bool isPasswordVisible = false;
@@ -133,17 +133,20 @@ class _LoginState extends State<Login> {
                       ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                            if (email == "admin@admin.com" &&
-                                password == "admin123") {
-                              // Login berhasil
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const Laporan(),
-                                ),
-                              );
-                            } else {
+                            try {
+                              final UserCredential userCredential =
+                                  await _auth.signInWithEmailAndPassword(
+                                      email: email!, password: password!);
+                              if (userCredential.user != null) {
+                                // Login berhasil
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const Laporan(),
+                                  ),
+                                );
+                              }
+                            } catch (e) {
                               // Login gagal
                               showDialog(
                                 context: context,
