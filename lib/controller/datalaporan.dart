@@ -14,6 +14,8 @@ class _DataLaporanState extends State<DataLaporan> {
   // final PesananController pesananController = PesananController();
   // final PengeluaranController pengeluaranController = PengeluaranController();
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,10 +38,13 @@ class _DataLaporanState extends State<DataLaporan> {
           'REDLEN APPS',
           style: GoogleFonts.inter(
             fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
         ),
       ),
-      body: Center(
+      
+      
+      body:Center(
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: FutureBuilder<List<String>>(
@@ -64,6 +69,8 @@ class _DataLaporanState extends State<DataLaporan> {
                   laba = 0;
                 }
 
+                
+
                 return Container(
                   width: 350,
                   height: 300,
@@ -75,6 +82,9 @@ class _DataLaporanState extends State<DataLaporan> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+
+                    
+
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

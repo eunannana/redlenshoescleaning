@@ -11,8 +11,11 @@ class Laporan extends StatefulWidget {
   State<Laporan> createState() => _LaporanState();
 }
 
+
+
 class _LaporanState extends State<Laporan> {
   int _selectedIndex = 0;
+  String _searchQuery = '';
 
   final List<Widget> _pages = [
     const DataLaporan(),
@@ -27,12 +30,23 @@ class _LaporanState extends State<Laporan> {
     });
   }
 
+  void _updateSearchQuery(String query){
+    setState(() {
+      _searchQuery = query;
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+
       body: SafeArea(
         child: _pages[_selectedIndex],
       ),
+
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(25.0)),
         child: SizedBox(
