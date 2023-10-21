@@ -2,19 +2,19 @@
 import 'dart:convert';
 
 class PengeluaranModel {
-  String pengeluaranId;
-  String keterangan;
-  String harga;
-  String createdAt;
-  String updatedAt;
-  String deletedAt; 
+  String? pengeluaranId;
+  final String keterangan;
+  final String harga;
+  final String createdAt;
+  // String updatedAt;
+  // String deletedAt;
   PengeluaranModel({
-    required this.pengeluaranId,
+    this.pengeluaranId,
     required this.keterangan,
     required this.harga,
     required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
+    // required this.updatedAt,
+    // required this.deletedAt,
   });
 
   PengeluaranModel copyWith({
@@ -22,16 +22,16 @@ class PengeluaranModel {
     String? keterangan,
     String? harga,
     String? createdAt,
-    String? updatedAt,
-    String? deletedAt,
+    // String? updatedAt,
+    // String? deletedAt,
   }) {
     return PengeluaranModel(
       pengeluaranId: pengeluaranId ?? this.pengeluaranId,
       keterangan: keterangan ?? this.keterangan,
       harga: harga ?? this.harga,
       createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-      deletedAt: deletedAt ?? this.deletedAt,
+      // updatedAt: updatedAt ?? this.updatedAt,
+      // deletedAt: deletedAt ?? this.deletedAt,
     );
   }
 
@@ -41,8 +41,8 @@ class PengeluaranModel {
       'keterangan': keterangan,
       'harga': harga,
       'createdAt': createdAt,
-      'updatedAt': updatedAt,
-      'deletedAt': deletedAt,
+      // 'updatedAt': updatedAt,
+      // 'deletedAt': deletedAt,
     };
   }
 
@@ -52,40 +52,40 @@ class PengeluaranModel {
       keterangan: map['keterangan'] as String,
       harga: map['harga'] as String,
       createdAt: map['createdAt'] as String,
-      updatedAt: map['updatedAt'] as String,
-      deletedAt: map['deletedAt'] as String,
+      // updatedAt: map['updatedAt'] as String,
+      // deletedAt: map['deletedAt'] as String,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory PengeluaranModel.fromJson(String source) => PengeluaranModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory PengeluaranModel.fromJson(String source) =>
+      PengeluaranModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'PengeluaranModel(pengeluaranId: $pengeluaranId, keterangan: $keterangan, harga: $harga, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+    return 'PengeluaranModel(pengeluaranId: $pengeluaranId, keterangan: $keterangan, harga: $harga, createdAt: $createdAt)';
   }
 
   @override
   bool operator ==(covariant PengeluaranModel other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.pengeluaranId == pengeluaranId &&
-      other.keterangan == keterangan &&
-      other.harga == harga &&
-      other.createdAt == createdAt &&
-      other.updatedAt == updatedAt &&
-      other.deletedAt == deletedAt;
+
+    return other.pengeluaranId == pengeluaranId &&
+        other.keterangan == keterangan &&
+        other.harga == harga &&
+        other.createdAt == createdAt;
+    // other.updatedAt == updatedAt &&
+    // other.deletedAt == deletedAt;
   }
 
   @override
   int get hashCode {
     return pengeluaranId.hashCode ^
-      keterangan.hashCode ^
-      harga.hashCode ^
-      createdAt.hashCode ^
-      updatedAt.hashCode ^
-      deletedAt.hashCode;
+        keterangan.hashCode ^
+        harga.hashCode ^
+        createdAt.hashCode;
+    // updatedAt.hashCode ^
+    // deletedAt.hashCode;
   }
 }
