@@ -26,7 +26,7 @@ class _TreatmentState extends State<Treatment> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFFD9D9D9),
+        backgroundColor: Color(0xFF0C8346),
         centerTitle: true,
         title: Text(
           'Daftar Treatment',
@@ -57,7 +57,7 @@ class _TreatmentState extends State<Treatment> {
                         horizontal: 20.0,
                       ),
                       child: Card(
-                        color: const Color(0xFFD9D9D9),
+                        color: Color(0xff8fd5a6),
                         elevation: 4,
                         child: ListTile(
                           title: Text(data[index]['treatment']),
@@ -72,11 +72,11 @@ class _TreatmentState extends State<Treatment> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => UpdateTreatment(
-                                        // treatmentID: data[index]['treatmentID'],
-                                        // treatment: data[index]['treatment'],
-                                        // hargaTreatment: data[index]
-                                        //     ['hargaTreatment'],
-                                      ),
+                                          // treatmentID: data[index]['treatmentID'],
+                                          // treatment: data[index]['treatment'],
+                                          // hargaTreatment: data[index]
+                                          //     ['hargaTreatment'],
+                                          ),
                                     ),
                                   ).then((value) {
                                     if (value == true) {
@@ -159,7 +159,7 @@ class _TreatmentState extends State<Treatment> {
             }
           });
         },
-        backgroundColor: const Color(0xFFD9D9D9),
+        backgroundColor: const Color(0xff329f5b),
         child: const Icon(Icons.add),
       ),
     );
