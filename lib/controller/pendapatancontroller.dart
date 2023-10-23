@@ -1,12 +1,9 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:redlenshoescleaning/model/pendapatanmodel.dart';
 
 class PendapatanController {
-  final pendapatanCollection =
-      FirebaseFirestore.instance.collection('pendapatan');
-
+  final pendapatanCollection = FirebaseFirestore.instance.collection('pendapatan');
   final StreamController<List<DocumentSnapshot>> streamController =
       StreamController<List<DocumentSnapshot>>.broadcast();
 
@@ -29,6 +26,9 @@ class PendapatanController {
       tglMasuk: penmodel.tglMasuk,
       tglKeluar: penmodel.tglKeluar,
       hargaTreatment: penmodel.hargaTreatment,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      deletedAt: DateTime.now(),
     );
 
     await docRef.update(pendapatanModel.toMap());
@@ -45,7 +45,11 @@ class PendapatanController {
       tglKeluar: penmodel.tglKeluar,
       hargaTreatment: penmodel.hargaTreatment,
       pendapatanID: penmodel.pendapatanID,
+      createdAt: penmodel.createdAt,
+      updatedAt: DateTime.now(),
+      deletedAt: penmodel.deletedAt,
     );
+
     await pendapatanCollection
         .doc(penmodel.pendapatanID)
         .update(pendapatanModel.toMap());

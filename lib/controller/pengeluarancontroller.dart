@@ -24,7 +24,9 @@ class PengeluaranController {
         pengeluaranId: docID,
         harga: pmodel.harga,
         keterangan: pmodel.keterangan,
-        createdAt: pmodel.createdAt);
+        createdAt: pmodel.createdAt,
+        updatedAt: DateTime.now(),
+        deletedAt: DateTime.now(),);
 
     await docRef.update(pengeluaranModel.toMap());
   }
@@ -34,7 +36,9 @@ class PengeluaranController {
         pengeluaranId: pmodel.pengeluaranId,
         keterangan: pmodel.keterangan,
         harga: pmodel.harga,
-        createdAt: pmodel.createdAt);
+        createdAt: pmodel.createdAt,
+        updatedAt: DateTime.now(),
+        deletedAt: pmodel.deletedAt,);
 
     await pengeluaranCollection
         .doc(pmodel.pengeluaranId)

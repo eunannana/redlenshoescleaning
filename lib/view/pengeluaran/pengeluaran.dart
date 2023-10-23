@@ -79,11 +79,11 @@ class _PengeluaranState extends State<Pengeluaran> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => UpdatePengeluaran(
-                                      pengeluaranId: data[index]
-                                          ['pengeluaranId'],
-                                      createdAt: data[index]['createdAt'],
-                                      keterangan: data[index]['keterangan'],
-                                      harga: data[index]['harga'],
+                                      // pengeluaranId: data[index]
+                                      //     ['pengeluaranId'],
+                                      // createdAt: data[index]['createdAt'],
+                                      // keterangan: data[index]['keterangan'],
+                                      // harga: data[index]['harga'],
                                     ),
                                   ),
                                 ).then((value) {

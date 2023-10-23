@@ -25,6 +25,9 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
   String? sepatuCust;
   String? hargaTreatment;
   String? treatment;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  DateTime? deletedAt;
 
   final TextEditingController hargaController = TextEditingController();
   final TextEditingController _tglMasukController = TextEditingController();
@@ -465,14 +468,19 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             PendapatanModel penmodel = PendapatanModel(
-                                namaCust: namaCust!,
-                                telpCust: telpCust!,
-                                alamatCust: alamatCust!,
-                                sepatuCust: sepatuCust!,
-                                treatment: treatment!,
-                                tglMasuk: tglMasuk!,
-                                tglKeluar: tglKeluar!,
-                                hargaTreatment: hargaTreatment!);
+                            namaCust: namaCust!,
+                            telpCust: telpCust!,
+                            alamatCust: alamatCust!,
+                            sepatuCust: sepatuCust!,
+                            treatment: treatment!,
+                            tglMasuk: tglMasuk!,
+                            tglKeluar: tglKeluar!,
+                            hargaTreatment: hargaTreatment!,
+                            // Adding timestamp fields
+                            createdAt: DateTime.now(),
+                            updatedAt: DateTime.now(),
+                            deletedAt: DateTime.now(),
+                          );
                             pendapatanController.addPendapatan(penmodel);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(

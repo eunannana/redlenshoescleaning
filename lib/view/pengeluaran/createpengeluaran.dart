@@ -15,9 +15,11 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
   final pengeluaranController = PengeluaranController();
   final _formkey = GlobalKey<FormState>();
 
-  String? createdAt;
   String? keterangan;
   String? harga;
+  String? createdAt;
+  DateTime? updatedAt;
+  DateTime? deletedAt;
 
   final TextEditingController _tanggalController = TextEditingController();
   @override
@@ -193,6 +195,8 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
                               createdAt: createdAt!,
                               keterangan: keterangan!,
                               harga: harga!,
+                              updatedAt: DateTime.now(),
+                              deletedAt: DateTime.now(),
                             );
                             pengeluaranController.addPengeluaran(pm);
                             ScaffoldMessenger.of(context).showSnackBar(

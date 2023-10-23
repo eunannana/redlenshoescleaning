@@ -5,33 +5,33 @@ class TreatmentModel {
   String? treatmentID;
   final String treatment;
   final String hargaTreatment;
-  // final String createdAt;
-  // String updatedAt;
-  // String deletedAt;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime deletedAt;
   TreatmentModel({
     this.treatmentID,
     required this.treatment,
     required this.hargaTreatment,
-    // required this.createdAt,
-    // required this.updatedAt,
-    // required this.deletedAt,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
   });
 
   TreatmentModel copyWith({
     String? treatmentID,
     String? treatment,
     String? hargaTreatment,
-    // String? createdAt,
-    // String? updatedAt,
-    // String? deletedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? deletedAt,
   }) {
     return TreatmentModel(
       treatmentID: treatmentID ?? this.treatmentID,
       treatment: treatment ?? this.treatment,
       hargaTreatment: hargaTreatment ?? this.hargaTreatment,
-      // createdAt: createdAt ?? this.createdAt,
-      // updatedAt: updatedAt ?? this.updatedAt,
-      // deletedAt: deletedAt ?? this.deletedAt,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
     );
   }
 
@@ -40,20 +40,20 @@ class TreatmentModel {
       'treatmentID': treatmentID,
       'treatment': treatment,
       'hargaTreatment': hargaTreatment,
-      // 'createdAt': createdAt,
-      // 'updatedAt': updatedAt,
-      // 'deletedAt': deletedAt,
+      'createdAt': createdAt.millisecondsSinceEpoch,
+      'updatedAt': updatedAt.millisecondsSinceEpoch,
+      'deletedAt': deletedAt.millisecondsSinceEpoch,
     };
   }
 
   factory TreatmentModel.fromMap(Map<String, dynamic> map) {
     return TreatmentModel(
-      treatmentID: map['treatmentID'] as String,
+      treatmentID: map['treatmentID'] != null ? map['treatmentID'] as String : null,
       treatment: map['treatment'] as String,
       hargaTreatment: map['hargaTreatment'] as String,
-      // createdAt: map['createdAt'] as String,
-      // updatedAt: map['updatedAt'] as String,
-      // deletedAt: map['deletedAt'] as String,
+      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
+      updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int),
+      deletedAt: DateTime.fromMillisecondsSinceEpoch(map['deletedAt'] as int),
     );
   }
 
@@ -64,26 +64,29 @@ class TreatmentModel {
 
   @override
   String toString() {
-    return 'TreatmentModel(treatmentID: $treatmentID, treatment: $treatment, hargaTreatment: $hargaTreatment)';
+    return 'TreatmentModel(treatmentID: $treatmentID, treatment: $treatment, hargaTreatment: $hargaTreatment, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
   }
 
   @override
   bool operator ==(covariant TreatmentModel other) {
     if (identical(this, other)) return true;
-
-    return other.treatmentID == treatmentID &&
-        other.treatment == treatment &&
-        other.hargaTreatment == hargaTreatment;
-    // other.createdAt == createdAt;
-    // other.updatedAt == updatedAt &&
-    // other.deletedAt == deletedAt;
+  
+    return 
+      other.treatmentID == treatmentID &&
+      other.treatment == treatment &&
+      other.hargaTreatment == hargaTreatment &&
+      other.createdAt == createdAt &&
+      other.updatedAt == updatedAt &&
+      other.deletedAt == deletedAt;
   }
 
   @override
   int get hashCode {
-    return treatmentID.hashCode ^ treatment.hashCode ^ hargaTreatment.hashCode;
-    // createdAt.hashCode;
-    // updatedAt.hashCode ^
-    // deletedAt.hashCode;
+    return treatmentID.hashCode ^
+      treatment.hashCode ^
+      hargaTreatment.hashCode ^
+      createdAt.hashCode ^
+      updatedAt.hashCode ^
+      deletedAt.hashCode;
   }
 }
