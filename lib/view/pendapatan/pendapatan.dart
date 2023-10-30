@@ -26,7 +26,7 @@ class _PendapatanState extends State<Pendapatan> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFFD9D9D9),
+        backgroundColor: const Color(0xFF0C8346),
         centerTitle: true,
         title: Text(
           'Daftar Pendapatan',
@@ -58,7 +58,7 @@ class _PendapatanState extends State<Pendapatan> {
                         horizontal: 20.0,
                       ),
                       child: Card(
-                        color: const Color(0xFFD9D9D9),
+                        color: const Color(0xff8fd5a6),
                         elevation: 4,
                         child: ListTile(
                           title: Text(data[index]['tglMasuk']),
@@ -172,7 +172,7 @@ class _PendapatanState extends State<Pendapatan> {
             ),
           );
         },
-        backgroundColor: const Color(0xFFD9D9D9),
+        backgroundColor: const Color(0xFF0C8346),
         child: const Icon(Icons.add),
       ),
     );

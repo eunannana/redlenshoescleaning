@@ -147,7 +147,7 @@ class _UpdatePendapatanState extends State<UpdatePendapatan> {
           },
         ),
         automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFFD9D9D9),
+        backgroundColor: const Color(0xFF0C8346),
         centerTitle: true,
         title: Text(
           'Edit Pendapatan',
@@ -164,7 +164,7 @@ class _UpdatePendapatanState extends State<UpdatePendapatan> {
               width: 350,
               height: 900,
               decoration: BoxDecoration(
-                color: const Color(0xFFD9D9D9),
+                color: const Color(0xff8fd5a6),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Form(
@@ -604,7 +604,7 @@ class _UpdatePendapatanState extends State<UpdatePendapatan> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF454BE0),
+                          backgroundColor: const Color(0xFF0C8346),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18),
                           ),

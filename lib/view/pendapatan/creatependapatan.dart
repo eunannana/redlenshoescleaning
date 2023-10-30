@@ -49,7 +49,7 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
           },
         ),
         automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFFD9D9D9),
+        backgroundColor: const Color(0xFF0C8346),
         centerTitle: true,
         title: Text(
           'Tambahkan Pesanan',
@@ -66,7 +66,7 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
               width: 350,
               height: 900,
               decoration: BoxDecoration(
-                color: const Color(0xFFD9D9D9),
+                color: const Color(0xff8fd5a6),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Form(
@@ -101,7 +101,7 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: const Color.fromRGBO(255, 255, 255, 1),
                             suffixIcon: IconButton(
                               icon: const Icon(Icons.calendar_today),
                               onPressed: () async {
@@ -492,7 +492,7 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF454BE0),
+                          backgroundColor: const Color(0xff329f5b),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18),
                           ),

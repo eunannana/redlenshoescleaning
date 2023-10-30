@@ -177,13 +177,13 @@ class _LoginState extends State<Login> {
                           minimumSize: MaterialStateProperty.all<Size>(
                               const Size(280, 50)),
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.blueAccent),
+                              MaterialStateProperty.all(Color(0xff329f5b)),
                           overlayColor:
                               MaterialStateProperty.resolveWith<Color?>(
                                   (Set<MaterialState> states) {
                             if (states.contains(MaterialState.pressed)) {
-                              return Colors
-                                  .green; // Ganti dengan warna overlay saat tombol ditekan
+                              return Color(
+                                  0xFF4CAF50); // Ganti dengan warna overlay saat tombol ditekan
                             }
                             return null;
                           }),

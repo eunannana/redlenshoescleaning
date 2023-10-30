@@ -25,7 +25,7 @@ class _PengeluaranState extends State<Pengeluaran> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFFD9D9D9),
+        backgroundColor: const Color(0xFF0C8346),
         centerTitle: true,
         title: Text(
           'Daftar Pengeluaran',
@@ -57,7 +57,7 @@ class _PengeluaranState extends State<Pengeluaran> {
                         horizontal: 20.0,
                       ),
                       child: Card(
-                        color: const Color(0xFFD9D9D9),
+                        color: const Color(0xff8fd5a6),
                         elevation: 4,
                         child: ListTile(
                           title: Text(data[index]['tanggal']),
@@ -171,7 +171,7 @@ class _PengeluaranState extends State<Pengeluaran> {
             }
           });
         },
-        backgroundColor: const Color(0xFFD9D9D9),
+        backgroundColor: const Color(0xff329f5b),
         child: const Icon(Icons.add),
       ),
     );
