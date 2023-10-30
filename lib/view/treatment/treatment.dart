@@ -72,10 +72,11 @@ class _TreatmentState extends State<Treatment> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => UpdateTreatment(
-                                          // treatmentID: data[index]['treatmentID'],
-                                          // treatment: data[index]['treatment'],
-                                          // hargaTreatment: data[index]
-                                          //     ['hargaTreatment'],
+                                          treatmentID: data[index]['treatmentID'],
+                                          treatment: data[index]['treatment'],
+                                          hargaTreatment: data[index]
+                                              ['hargaTreatment'],
+                                              
                                           ),
                                     ),
                                   ).then((value) {

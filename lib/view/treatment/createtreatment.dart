@@ -137,7 +137,6 @@ class _CreateTreatmentState extends State<CreateTreatment> {
                               hargaTreatment: hargaTreatment!,
                               createdAt: DateTime.now(),
                               updatedAt: DateTime.now(),
-                              deletedAt: DateTime.now(),
                             );
                             treatmentController.addTreatment(tm);
                             ScaffoldMessenger.of(context).showSnackBar(

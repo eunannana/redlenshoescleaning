@@ -5,16 +5,16 @@ class TreatmentModel {
   String? treatmentID;
   final String treatment;
   final String hargaTreatment;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final DateTime deletedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  DateTime? deletedAt;
   TreatmentModel({
     this.treatmentID,
     required this.treatment,
     required this.hargaTreatment,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
   });
 
   TreatmentModel copyWith({
@@ -40,9 +40,9 @@ class TreatmentModel {
       'treatmentID': treatmentID,
       'treatment': treatment,
       'hargaTreatment': hargaTreatment,
-      'createdAt': createdAt.millisecondsSinceEpoch,
-      'updatedAt': updatedAt.millisecondsSinceEpoch,
-      'deletedAt': deletedAt.millisecondsSinceEpoch,
+    'createdAt': createdAt?.millisecondsSinceEpoch,
+    'updatedAt': updatedAt?.millisecondsSinceEpoch,
+    'deletedAt': deletedAt?.millisecondsSinceEpoch,
     };
   }
 
@@ -51,9 +51,9 @@ class TreatmentModel {
       treatmentID: map['treatmentID'] != null ? map['treatmentID'] as String : null,
       treatment: map['treatment'] as String,
       hargaTreatment: map['hargaTreatment'] as String,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
-      updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int),
-      deletedAt: DateTime.fromMillisecondsSinceEpoch(map['deletedAt'] as int),
+      createdAt: map['createdAt'] != null ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int) : null,
+      updatedAt: map['updatedAt'] != null ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int) : null,
+      deletedAt: map['deletedAt'] != null ? DateTime.fromMillisecondsSinceEpoch(map['deletedAt'] as int) : null,
     );
   }
 
