@@ -80,13 +80,18 @@ class _PendapatanState extends State<Pendapatan> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const UpdatePendapatan(
-                                        // pendapatanID: data[index]
-                                        //     ['pendapatanID'],
-                                        // createdAt: data[index]['createdAt'],
-                                        // keterangan: data[index]['keterangan'],
-                                        // harga: data[index]['harga'],
-                                        ),
+                                    builder: (context) => UpdatePendapatan(
+                                      pendapatanID: data[index]['pendapatanID'],
+                                      namaCust: data[index]['namaCust'],
+                                      telpCust: data[index]['telpCust'],
+                                      alamatCust: data[index]['alamatCust'],
+                                      sepatuCust: data[index]['sepatuCust'],
+                                      treatment: data[index]['treatment'],
+                                      tglMasuk: data[index]['tglMasuk'],
+                                      tglKeluar: data[index]['tglKeluar'],
+                                      hargaTreatment: data[index]
+                                          ['hargaTreatment'],
+                                    ),
                                   ),
                                 ).then((value) {
                                   if (value == true) {

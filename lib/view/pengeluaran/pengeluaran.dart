@@ -60,7 +60,7 @@ class _PengeluaranState extends State<Pengeluaran> {
                         color: const Color(0xFFD9D9D9),
                         elevation: 4,
                         child: ListTile(
-                          title: Text(data[index]['createdAt']),
+                          title: Text(data[index]['tanggal']),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -79,11 +79,11 @@ class _PengeluaranState extends State<Pengeluaran> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => UpdatePengeluaran(
-                                      // pengeluaranId: data[index]
-                                      //     ['pengeluaranId'],
-                                      // createdAt: data[index]['createdAt'],
-                                      // keterangan: data[index]['keterangan'],
-                                      // harga: data[index]['harga'],
+                                      pengeluaranId: data[index]
+                                          ['pengeluaranId'],
+                                      tanggal: data[index]['tanggal'],
+                                      keterangan: data[index]['keterangan'],
+                                      harga: data[index]['harga'],
                                     ),
                                   ),
                                 ).then((value) {

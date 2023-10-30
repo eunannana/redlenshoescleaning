@@ -17,7 +17,8 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
 
   String? keterangan;
   String? harga;
-  String? createdAt;
+  String? tanggal;
+  DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
 
@@ -82,19 +83,19 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
                             suffixIcon: IconButton(
                               icon: const Icon(Icons.calendar_today),
                               onPressed: () async {
-                                DateTime? tanggal = await showDatePicker(
+                                DateTime? tanggalm = await showDatePicker(
                                   context: context,
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime(2023),
                                   lastDate: DateTime(2025),
                                 );
-                                if (tanggal != null) {
-                                  createdAt =
-                                      DateFormat('dd-MM-yyyy').format(tanggal);
+                                if (tanggalm != null) {
+                                  tanggal =
+                                      DateFormat('dd-MM-yyyy').format(tanggalm);
 
                                   setState(() {
                                     _tanggalController.text =
-                                        createdAt.toString();
+                                        tanggal.toString();
                                   });
                                 }
                               },
@@ -192,9 +193,10 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
                             PengeluaranModel pm = PengeluaranModel(
-                              createdAt: createdAt!,
+                              tanggal: tanggal!,
                               keterangan: keterangan!,
                               harga: harga!,
+                              createdAt: DateTime.now(),
                               updatedAt: DateTime.now(),
                               deletedAt: DateTime.now(),
                             );

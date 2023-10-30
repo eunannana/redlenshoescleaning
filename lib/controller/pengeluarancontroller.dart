@@ -21,24 +21,28 @@ class PengeluaranController {
     final String docID = docRef.id;
 
     final PengeluaranModel pengeluaranModel = PengeluaranModel(
-        pengeluaranId: docID,
-        harga: pmodel.harga,
-        keterangan: pmodel.keterangan,
-        createdAt: pmodel.createdAt,
-        updatedAt: DateTime.now(),
-        deletedAt: DateTime.now(),);
+      pengeluaranId: docID,
+      harga: pmodel.harga,
+      keterangan: pmodel.keterangan,
+      tanggal: pmodel.tanggal,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      deletedAt: DateTime.now(),
+    );
 
     await docRef.update(pengeluaranModel.toMap());
   }
 
   Future<void> updatePengeluaran(PengeluaranModel pmodel) async {
     final PengeluaranModel pengeluaranModel = PengeluaranModel(
-        pengeluaranId: pmodel.pengeluaranId,
-        keterangan: pmodel.keterangan,
-        harga: pmodel.harga,
-        createdAt: pmodel.createdAt,
-        updatedAt: DateTime.now(),
-        deletedAt: pmodel.deletedAt,);
+      pengeluaranId: pmodel.pengeluaranId,
+      keterangan: pmodel.keterangan,
+      harga: pmodel.harga,
+      tanggal: pmodel.tanggal,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      deletedAt: DateTime.now(),
+    );
 
     await pengeluaranCollection
         .doc(pmodel.pengeluaranId)

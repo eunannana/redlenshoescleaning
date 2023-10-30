@@ -468,25 +468,26 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             PendapatanModel penmodel = PendapatanModel(
-                            namaCust: namaCust!,
-                            telpCust: telpCust!,
-                            alamatCust: alamatCust!,
-                            sepatuCust: sepatuCust!,
-                            treatment: treatment!,
-                            tglMasuk: tglMasuk!,
-                            tglKeluar: tglKeluar!,
-                            hargaTreatment: hargaTreatment!,
-                            // Adding timestamp fields
-                            createdAt: DateTime.now(),
-                            updatedAt: DateTime.now(),
-                            deletedAt: DateTime.now(),
-                          );
+                              namaCust: namaCust!,
+                              telpCust: telpCust!,
+                              alamatCust: alamatCust!,
+                              sepatuCust: sepatuCust!,
+                              treatment: treatment!,
+                              tglMasuk: tglMasuk!,
+                              tglKeluar: tglKeluar!,
+                              hargaTreatment: hargaTreatment!,
+                              // Adding timestamp fields
+                              createdAt: DateTime.now(),
+                              updatedAt: DateTime.now(),
+                              deletedAt: DateTime.now(),
+                            );
                             pendapatanController.addPendapatan(penmodel);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Pendapatan Ditambahkan'),
                               ),
                             );
+                            Navigator.pop(context, true);
                             Navigator.pop(context, true);
                           }
                         },
