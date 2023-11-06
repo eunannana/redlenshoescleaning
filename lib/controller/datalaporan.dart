@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:redlenshoescleaning/view/login.dart';
+import 'package:redlenshoescleaning/controller/authcontroller.dart';
+import 'package:redlenshoescleaning/controller/pendapatancontroller.dart';
+import 'package:redlenshoescleaning/controller/pengeluarancontroller.dart';
 
 class DataLaporan extends StatefulWidget {
-  const DataLaporan({super.key});
+  const DataLaporan({Key? key}) : super(key: key);
 
   @override
   State<DataLaporan> createState() => _DataLaporanState();
 }
 
 class _DataLaporanState extends State<DataLaporan> {
-  // final AuthController authController = AuthController();
-  // final PesananController pesananController = PesananController();
-  // final PengeluaranController pengeluaranController = PengeluaranController();
-
-
+  final AuthController authController = AuthController();
+  final PendapatanController pendapatanController = PendapatanController();
+  final PengeluaranController pengeluaranController = PengeluaranController();
+  // DateTime startDate = DateTime.now();
+  // DateTime endDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -24,27 +26,22 @@ class _DataLaporanState extends State<DataLaporan> {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () {
-              // authController.signOut();
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Login();
-              }));
+              authController.signOut();
             },
           ),
         ],
         automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFFD9D9D9),
+        backgroundColor: const Color(0xFF0C8346),
         centerTitle: true,
         title: Text(
           'REDLEN APPS',
           style: GoogleFonts.inter(
             fontWeight: FontWeight.bold,
-            color: Colors.black,
+            color: Colors.white,
           ),
         ),
       ),
-      
-      
-      body:Center(
+      body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: FutureBuilder<List<String>>(
@@ -60,76 +57,57 @@ class _DataLaporanState extends State<DataLaporan> {
 
                 double laba = double.parse(totalPendapatan) -
                     double.parse(totalPengeluaran);
-                double rugi = double.parse(totalPendapatan) -
-                    double.parse(totalPengeluaran);
-
-                if (laba >= 0) {
-                  rugi = 0;
-                } else {
-                  laba = 0;
-                }
-
-                
 
                 return Container(
                   width: 350,
                   height: 300,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFD9D9D9),
+                    color: const Color(0xff8fd5a6),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-
-                    
-
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
+                            const Text(
                               'Pendapatan',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(width: 85),
-                            Text(
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            _buildDecorationBox(double.parse(totalPendapatan)),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
                               'Pengeluaran',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 5),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            _buildDecorationBox(double.parse(totalPendapatan)),
-                            const SizedBox(width: 20),
+                            const SizedBox(
+                              width: 18,
+                            ),
                             _buildDecorationBox(double.parse(totalPengeluaran)),
                           ],
                         ),
-                        const SizedBox(height: 65),
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Laba',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(width: 140),
-                            Text(
-                              'Rugi',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 5),
+                        const SizedBox(height: 20),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            const Text(
+                              'Laba/Rugi',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              width: 33,
+                            ),
                             _buildDecorationBox(laba),
-                            const SizedBox(width: 20),
-                            _buildDecorationBox(rugi),
                           ],
                         ),
                       ],
@@ -148,28 +126,14 @@ class _DataLaporanState extends State<DataLaporan> {
     );
   }
 
-  // Future<String> getTotalPengeluaran() async {
-  //   final totalPengeluaran = await pengeluaranController.getTotalPengeluaran();
-  //   return totalPengeluaran;
-  // }
-
-  // Future<String> getTotalPendapatan() async {
-  //   final totalPendapatan = await pesananController.getTotalPendapatan();
-  //   return totalPendapatan;
-  // }
-
   Future<String> getTotalPengeluaran() async {
-    // Gantilah ini dengan data dummy pengeluaran
-    const dummyTotalPengeluaran =
-        "5000"; // Gantilah ini dengan nilai yang sesuai
-    return dummyTotalPengeluaran;
+    final totalPengeluaran = await pengeluaranController.getTotalPengeluaran();
+    return totalPengeluaran;
   }
 
   Future<String> getTotalPendapatan() async {
-    // Gantilah ini dengan data dummy pendapatan
-    const dummyTotalPendapatan =
-        "100000"; // Gantilah ini dengan nilai yang sesuai
-    return dummyTotalPendapatan;
+    final totalPendapatan = await pendapatanController.getTotalPendapatan();
+    return totalPendapatan;
   }
 }
 
@@ -185,7 +149,9 @@ Widget _buildDecorationBox(double value) {
     child: Center(
       child: Text(
         value.toStringAsFixed(2),
-        style: const TextStyle(fontWeight: FontWeight.bold),
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
       ),
     ),
   );

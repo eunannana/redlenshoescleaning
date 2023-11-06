@@ -3,7 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:redlenshoescleaning/model/pendapatanmodel.dart';
 
 class PendapatanController {
-  final pendapatanCollection = FirebaseFirestore.instance.collection('pendapatan');
+  final pendapatanCollection =
+      FirebaseFirestore.instance.collection('pendapatan');
   final StreamController<List<DocumentSnapshot>> streamController =
       StreamController<List<DocumentSnapshot>>.broadcast();
 
@@ -67,9 +68,7 @@ class PendapatanController {
 
   Future<String> getTotalPendapatan() async {
     try {
-      final pendapatan = await pendapatanCollection
-          .where('status', isEqualTo: 'Finished')
-          .get();
+      final pendapatan = await pendapatanCollection.get();
       double total = 0;
       pendapatan.docs.forEach((doc) {
         PendapatanModel pendapatanModel =

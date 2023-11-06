@@ -1,10 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:redlenshoescleaning/view/laporan.dart';
 import 'package:redlenshoescleaning/view/login.dart';
-import 'package:redlenshoescleaning/view/pendapatan/pendapatan.dart';
-import 'package:redlenshoescleaning/view/pengeluaran/pengeluaran.dart';
-import 'package:redlenshoescleaning/view/treatment/treatment.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +15,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Pengeluaran(),
+      home: Login(),
     );
   }
 }

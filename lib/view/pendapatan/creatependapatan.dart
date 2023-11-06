@@ -37,18 +37,6 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const Pendapatan(),
-              ),
-            );
-          },
-        ),
-        automaticallyImplyLeading: false,
         backgroundColor: const Color(0xFF0C8346),
         centerTitle: true,
         title: Text(

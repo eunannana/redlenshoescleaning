@@ -11,8 +11,6 @@ class Laporan extends StatefulWidget {
   State<Laporan> createState() => _LaporanState();
 }
 
-
-
 class _LaporanState extends State<Laporan> {
   int _selectedIndex = 0;
   String _searchQuery = '';
@@ -30,50 +28,45 @@ class _LaporanState extends State<Laporan> {
     });
   }
 
-  void _updateSearchQuery(String query){
+  void _updateSearchQuery(String query) {
     setState(() {
       _searchQuery = query;
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-
       body: SafeArea(
         child: _pages[_selectedIndex],
       ),
-
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(25.0)),
         child: SizedBox(
           height: 80,
           child: BottomNavigationBar(
-            selectedItemColor: Colors.black,
-            unselectedItemColor: Colors.grey,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.black,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Home',
-                backgroundColor: Color(0xFFD9D9D9),
+                backgroundColor: Color(0xFF0C8346),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.trending_up_sharp),
                 label: 'Pendapatan',
-                backgroundColor: Color(0xFFD9D9D9),
+                backgroundColor: Color(0xFF0C8346),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.trending_down_sharp),
                 label: 'Pengeluaran',
-                backgroundColor: Color(0xFFD9D9D9),
+                backgroundColor: Color(0xFF0C8346),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.analytics_sharp),
                 label: 'Treatment',
-                backgroundColor: Color(0xFFD9D9D9),
+                backgroundColor: Color(0xFF0C8346),
               ),
             ],
             currentIndex: _selectedIndex,
