@@ -8,12 +8,17 @@ import 'package:redlenshoescleaning/view/pengeluaran/updatepengeluaran.dart';
 class Pengeluaran extends StatefulWidget {
   const Pengeluaran({Key? key});
 
+  get harga => null;
+
   @override
   State<Pengeluaran> createState() => _PengeluaranState();
 }
 
 class _PengeluaranState extends State<Pengeluaran> {
   var pc = PengeluaranController();
+  String keyword = "";
+  bool isSearching = false;
+
   @override
   void initState() {
     pc.getPengeluaran();
@@ -33,9 +38,49 @@ class _PengeluaranState extends State<Pengeluaran> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              setState(() {
+                isSearching = !isSearching; // Toggle kotak pencarian
+              });
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
+          if (isSearching)
+            Container(
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: TextField(
+                decoration: const InputDecoration(
+                  hintText: 'Cari Pengeluaran...',
+                  border: InputBorder.none,
+                  suffixIcon: Icon(Icons.search, color: Colors.grey),
+                  contentPadding: EdgeInsets.symmetric(vertical: 15),
+                ),
+                onChanged: (newKeyword) {
+                  setState(() {
+                    keyword = newKeyword;
+                  });
+                },
+              ),
+            ),
           Expanded(
             child: StreamBuilder<List<DocumentSnapshot>>(
               stream: pc.stream,
@@ -48,8 +93,21 @@ class _PengeluaranState extends State<Pengeluaran> {
 
                 final List<DocumentSnapshot> data = snapshot.data!;
 
+                // Implementasi logika pencarian
+                List<DocumentSnapshot> filteredDocuments =
+                    data.where((document) {
+                  Map<String, dynamic> pengeluaran =
+                      document.data() as Map<String, dynamic>;
+                  String searchField = pengeluaran['tanggal'] +
+                      pengeluaran['keterangan'] +
+                      pengeluaran['harga'].toString();
+                  return searchField
+                      .toLowerCase()
+                      .contains(keyword.toLowerCase());
+                }).toList();
+
                 return ListView.builder(
-                  itemCount: data.length,
+                  itemCount: filteredDocuments.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(
@@ -60,12 +118,12 @@ class _PengeluaranState extends State<Pengeluaran> {
                         color: const Color(0xff8fd5a6),
                         elevation: 4,
                         child: ListTile(
-                          title: Text(data[index]['tanggal']),
+                          title: Text(filteredDocuments[index]['tanggal']),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(data[index]['keterangan']),
-                              Text(data[index]['harga']),
+                              Text(filteredDocuments[index]['keterangan']),
+                              Text(filteredDocuments[index]['harga']),
                             ],
                           ),
                           trailing: PopupMenuButton<String>(
@@ -79,11 +137,13 @@ class _PengeluaranState extends State<Pengeluaran> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => UpdatePengeluaran(
-                                      pengeluaranId: data[index]
+                                      pengeluaranId: filteredDocuments[index]
                                           ['pengeluaranId'],
-                                      tanggal: data[index]['tanggal'],
-                                      keterangan: data[index]['keterangan'],
-                                      harga: data[index]['harga'],
+                                      tanggal: filteredDocuments[index]
+                                          ['tanggal'],
+                                      keterangan: filteredDocuments[index]
+                                          ['keterangan'],
+                                      harga: filteredDocuments[index]['harga'],
                                     ),
                                   ),
                                 ).then((value) {
@@ -120,9 +180,10 @@ class _PengeluaranState extends State<Pengeluaran> {
                                                 TextStyle(color: Colors.blue),
                                           ),
                                           onPressed: () {
-                                            pc.removePengeluaran(data[index]
-                                                    ['pengeluaranId']
-                                                .toString());
+                                            pc.removePengeluaran(
+                                                filteredDocuments[index]
+                                                        ['pengeluaranId']
+                                                    .toString());
                                             setState(() {
                                               pc.getPengeluaran();
                                             });

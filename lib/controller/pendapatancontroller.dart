@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:redlenshoescleaning/model/pendapatanmodel.dart';
+import 'package:redlenshoescleaning/view/pendapatan/pendapatan.dart';
 
 class PendapatanController {
   final pendapatanCollection =
@@ -82,5 +84,23 @@ class PendapatanController {
       print('Error while getting total pendapatan: $e');
       return '0';
     }
+  }
+
+  Future<List<PendapatanModel>> getPendapatanByDate(
+      DateTime startDate, DateTime endDate) async {
+    final pendapatan = await pendapatanCollection.get();
+    final filteredPendapatan = <PendapatanModel>[];
+
+    pendapatan.docs.forEach((doc) {
+      final pendapatanModel =
+          PendapatanModel.fromMap(doc.data() as Map<String, dynamic>);
+      final tglMasuk = DateFormat("dd-MM-yyyy").parse(pendapatanModel.tglMasuk);
+
+      if (tglMasuk.isAfter(startDate) && tglMasuk.isBefore(endDate)) {
+        filteredPendapatan.add(pendapatanModel);
+      }
+    });
+
+    return filteredPendapatan;
   }
 }

@@ -141,6 +141,11 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Nama Barang tidak boleh kosong!';
+                            } else if (value.length > 50) {
+                              return 'Nama Barang maksimal 50 karakter!';
+                            } else if (!RegExp(r'^[a-zA-Z\s]+$')
+                                .hasMatch(value)) {
+                              return 'Nama Barang harus berisi huruf alphabet saja.';
                             }
                             return null;
                           },
@@ -180,6 +185,8 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Harga tidak boleh kosong!';
+                            } else if (!RegExp(r'^\d+$').hasMatch(value)) {
+                              return 'Harga harus berisi angka saja.';
                             }
                             return null;
                           },

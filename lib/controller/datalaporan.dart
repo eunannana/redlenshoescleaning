@@ -156,3 +156,206 @@ Widget _buildDecorationBox(double value) {
     ),
   );
 }
+
+// import 'package:flutter/material.dart';
+// import 'package:google_fonts/google_fonts.dart';
+// import 'package:redlenshoescleaning/controller/authcontroller.dart';
+// import 'package:redlenshoescleaning/controller/pendapatancontroller.dart';
+// import 'package:redlenshoescleaning/controller/pengeluarancontroller.dart';
+// import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+// import 'package:intl/intl.dart';
+// import 'package:redlenshoescleaning/view/pendapatan/pendapatan.dart';
+// import 'package:redlenshoescleaning/view/pengeluaran/pengeluaran.dart';
+
+// class DataLaporan extends StatefulWidget {
+//   const DataLaporan({Key? key}) : super(key: key);
+
+//   @override
+//   State<DataLaporan> createState() => _DataLaporanState();
+// }
+
+// class _DataLaporanState extends State<DataLaporan> {
+//   final AuthController authController = AuthController();
+//   final PendapatanController pendapatanController = PendapatanController();
+//   final PengeluaranController pengeluaranController = PengeluaranController();
+//   DateTime? startDate;
+//   DateTime? endDate;
+
+//   List<Pendapatan> filteredPendapatan = [];
+//   List<Pengeluaran> filteredPengeluaran = [];
+
+//   String totalPendapatan = '';
+//   String totalPengeluaran = '';
+//   String labaRugi = '';
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     fetchData();
+//   }
+
+//   Future<void> fetchData() async {
+//     if (mounted) {
+//       totalPendapatan = await pendapatanController.getTotalPendapatan();
+//       totalPengeluaran = await pengeluaranController.getTotalPengeluaran();
+//       labaRugi = calculateLabaRugi();
+//       if (mounted) {
+//         setState(() {});
+//       }
+//     }
+//   }
+
+//   String calculateLabaRugi() {
+//     if (totalPendapatan.isNotEmpty && totalPengeluaran.isNotEmpty) {
+//       double pendapatan = double.parse(totalPendapatan);
+//       double pengeluaran = double.parse(totalPengeluaran);
+//       double laba = pendapatan - pengeluaran;
+//       return laba.toStringAsFixed(2);
+//     } else {
+//       return '0.00';
+//     }
+//   }
+
+//   Future<void> filterData() async {
+//     if (startDate != null && endDate != null) {
+//       filteredPendapatan = (await pendapatanController.getPendapatanByDate(
+//         startDate!,
+//         endDate!,
+//       ))
+//           .cast<Pendapatan>();
+
+//       filteredPengeluaran = (await pengeluaranController.getPengeluaranByDate(
+//         startDate!,
+//         endDate!,
+//       ))
+//           .cast<Pengeluaran>();
+
+//       labaRugi = calculateLabaRugi();
+//       setState(() {});
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         actions: [
+//           IconButton(
+//             icon: const Icon(Icons.logout),
+//             onPressed: () {
+//               authController.signOut();
+//             },
+//           ),
+//         ],
+//         automaticallyImplyLeading: false,
+//         backgroundColor: const Color(0xFF0C8346),
+//         centerTitle: true,
+//         title: Text(
+//           'REDLEN APPS',
+//           style: GoogleFonts.inter(
+//             fontWeight: FontWeight.bold,
+//             color: Colors.white,
+//           ),
+//         ),
+//       ),
+//       body: Center(
+//         child: Padding(
+//           padding: const EdgeInsets.all(20),
+//           child: Column(
+//             children: [
+//               DateTimeField(
+//                 format: DateFormat("dd-MM-yyyy"),
+//                 style: const TextStyle(color: Colors.black),
+//                 onShowPicker: (context, currentValue) async {
+//                   final selectedDate = await showDatePicker(
+//                     context: context,
+//                     initialDate: startDate ?? DateTime.now(),
+//                     firstDate: DateTime(2000),
+//                     lastDate: DateTime(2101),
+//                   );
+//                   if (selectedDate != null) {
+//                     setState(() {
+//                       startDate = selectedDate;
+//                     });
+//                   }
+//                 },
+//                 decoration: const InputDecoration(
+//                   labelText: 'Start Date',
+//                   // Customize the decoration as needed
+//                 ),
+//               ),
+//               const SizedBox(height: 20),
+//               DateTimeField(
+//                 format: DateFormat("dd-MM-yyyy"),
+//                 style: const TextStyle(color: Colors.black),
+//                 onShowPicker: (context, currentValue) async {
+//                   final selectedDate = await showDatePicker(
+//                     context: context,
+//                     initialDate: endDate ?? DateTime.now(),
+//                     firstDate: DateTime(2000),
+//                     lastDate: DateTime(2101),
+//                   );
+//                   if (selectedDate != null) {
+//                     setState(() {
+//                       endDate = selectedDate;
+//                     });
+//                   }
+//                 },
+//                 decoration: const InputDecoration(
+//                   labelText: 'End Date',
+//                   // Customize the decoration as needed
+//                 ),
+//               ),
+//               ElevatedButton(
+//                 onPressed: filterData,
+//                 child: const Text("Filter Data"),
+//               ),
+//               if (totalPendapatan.isNotEmpty && totalPengeluaran.isNotEmpty)
+//                 Column(
+//                   children: [
+//                     Text("Total Pendapatan: $totalPendapatan"),
+//                     Text("Total Pengeluaran: $totalPengeluaran"),
+//                     Text("Laba/Rugi: $labaRugi"),
+//                     if (filteredPendapatan.isNotEmpty ||
+//                         filteredPengeluaran.isNotEmpty)
+//                       Column(
+//                         children: [
+//                           const Text("Data Pendapatan:"),
+//                           Expanded(
+//                             child: ListView.builder(
+//                               itemCount: filteredPendapatan.length,
+//                               itemBuilder: (context, index) {
+//                                 final pendapatan = filteredPendapatan[index];
+//                                 return ListTile(
+//                                   title:
+//                                       Text("Pendapatan: ${pendapatan.harga}"),
+//                                   // Tampilkan detail pendapatan sesuai kebutuhan
+//                                 );
+//                               },
+//                             ),
+//                           ),
+//                           const Text("Data Pengeluaran:"),
+//                           Expanded(
+//                             child: ListView.builder(
+//                               itemCount: filteredPengeluaran.length,
+//                               itemBuilder: (context, index) {
+//                                 final pengeluaran = filteredPengeluaran[index];
+//                                 return ListTile(
+//                                   title:
+//                                       Text("Pengeluaran: ${pengeluaran.harga}"),
+//                                   // Tampilkan detail pengeluaran sesuai kebutuhan
+//                                 );
+//                               },
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                   ],
+//                 ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

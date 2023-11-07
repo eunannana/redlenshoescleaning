@@ -40,7 +40,7 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
         backgroundColor: const Color(0xFF0C8346),
         centerTitle: true,
         title: Text(
-          'Tambahkan Pesanan',
+          'Tambahkan Pendapatan',
           style: GoogleFonts.inter(
             fontWeight: FontWeight.bold,
           ),
@@ -210,6 +210,11 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Nama customer tidak boleh kosong!';
+                            } else if (value.length > 30) {
+                              return 'Nama Customer maksimal 30 karakter!';
+                            } else if (!RegExp(r'^[a-zA-Z\s]+$')
+                                .hasMatch(value)) {
+                              return 'Nama Customer harus berisi huruf alphabet saja.';
                             }
                             return null;
                           },
@@ -249,6 +254,10 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'No. Telepon tidak boleh kosong!';
+                            } else if (!RegExp(r'^\d+$').hasMatch(value)) {
+                              return 'No. Telepon harus berisi angka saja.';
+                            } else if (value.length < 10 || value.length > 13) {
+                              return 'No. Telepon harus terdiri dari 10 hingga 13 karakter!';
                             }
                             return null;
                           },
@@ -288,7 +297,13 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Alamat tidak boleh kosong!';
+                            } else if (value.length > 50) {
+                              return 'Alamat maksimal 50 karakter!';
+                            } else if (!RegExp(r'^[a-zA-Z0-9\s]+$')
+                                .hasMatch(value)) {
+                              return 'Alamat hanya boleh berisi huruf alfabet dan angka.';
                             }
+
                             return null;
                           },
                           onChanged: (value) {
@@ -327,6 +342,11 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Sepatu tidak boleh kosong!';
+                            } else if (value.length > 30) {
+                              return 'Sepatu maksimal 30 karakter!';
+                            } else if (!RegExp(r'^[a-zA-Z0-9\s]+$')
+                                .hasMatch(value)) {
+                              return 'Sepatu hanya boleh berisi huruf alfabet dan angka.';
                             }
                             return null;
                           },

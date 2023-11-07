@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:redlenshoescleaning/model/pengeluaranmodel.dart';
 
 class PengeluaranController {
@@ -74,5 +75,27 @@ class PengeluaranController {
       print('Error while getting total pengeluaran: $e');
       return '0';
     }
+  }
+
+  Future<List<PengeluaranModel>> getPengeluaranByDate(
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
+    final pengeluaran = await pengeluaranCollection.get();
+    final filteredPengeluaran = <PengeluaranModel>[];
+
+    pengeluaran.docs.forEach((doc) {
+      final pengeluaranModel =
+          PengeluaranModel.fromMap(doc.data() as Map<String, dynamic>);
+      final dateFormat = DateFormat("dd-MM-yyyy");
+      final parsedDate = dateFormat.parse(pengeluaranModel.tanggal);
+
+      // Filter data berdasarkan tanggal
+      if (parsedDate.isAfter(startDate) && parsedDate.isBefore(endDate)) {
+        filteredPengeluaran.add(pengeluaranModel);
+      }
+    });
+
+    return filteredPengeluaran;
   }
 }

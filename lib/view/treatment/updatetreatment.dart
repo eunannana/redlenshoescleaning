@@ -159,6 +159,11 @@ class _UpdateTreatmentState extends State<UpdateTreatment> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Jenis treatment tidak boleh kosong!';
+                            } else if (value.length > 20) {
+                              return 'Jenis Treatment maksimal 20 karakter!';
+                            } else if (!RegExp(r'^[a-zA-Z\s]+$')
+                                .hasMatch(value)) {
+                              return 'Jenis Treatment harus berisi huruf alphabet saja.';
                             }
                             return null;
                           },
@@ -195,6 +200,8 @@ class _UpdateTreatmentState extends State<UpdateTreatment> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Harga tidak boleh kosong!';
+                            } else if (!RegExp(r'^\d+$').hasMatch(value)) {
+                              return 'Harga harus berisi angka saja.';
                             }
                             return null;
                           },

@@ -9,12 +9,18 @@ import 'package:redlenshoescleaning/view/pendapatan/updatependapatan.dart';
 class Pendapatan extends StatefulWidget {
   const Pendapatan({Key? key});
 
+  get hargaTreatment => null;
+
+  get harga => null;
+
   @override
   State<Pendapatan> createState() => _PendapatanState();
 }
 
 class _PendapatanState extends State<Pendapatan> {
   var penc = PendapatanController();
+  String keyword = "";
+  bool isSearching = false;
 
   @override
   void initState() {
@@ -35,9 +41,49 @@ class _PendapatanState extends State<Pendapatan> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              setState(() {
+                isSearching = !isSearching; // Toggle kotak pencarian
+              });
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
+          if (isSearching)
+            Container(
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: TextField(
+                decoration: const InputDecoration(
+                  hintText: 'Cari Pendapatan...',
+                  border: InputBorder.none,
+                  suffixIcon: Icon(Icons.search, color: Colors.grey),
+                  contentPadding: EdgeInsets.symmetric(vertical: 15),
+                ),
+                onChanged: (newKeyword) {
+                  setState(() {
+                    keyword = newKeyword;
+                  });
+                },
+              ),
+            ),
           Expanded(
             child: StreamBuilder<List<DocumentSnapshot>>(
               stream: penc.stream,
@@ -50,11 +96,26 @@ class _PendapatanState extends State<Pendapatan> {
 
                 final List<DocumentSnapshot> data = snapshot.data!;
 
+                // Implementasi logika pencarian
+                List<DocumentSnapshot> filteredDocuments =
+                    data.where((document) {
+                  Map<String, dynamic> pendapatan =
+                      document.data() as Map<String, dynamic>;
+                  String searchField = pendapatan['namaCust'] +
+                      pendapatan['sepatuCust'] +
+                      pendapatan['treatment'] +
+                      pendapatan['tglMasuk'] +
+                      pendapatan['hargaTreatment'].toString();
+                  return searchField
+                      .toLowerCase()
+                      .contains(keyword.toLowerCase());
+                }).toList();
+
                 return ListView.builder(
-                  itemCount: data.length,
+                  itemCount: filteredDocuments.length,
                   itemBuilder: (context, index) {
                     final pendapatan =
-                        data[index].data() as Map<String, dynamic>;
+                        filteredDocuments[index].data() as Map<String, dynamic>;
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                         vertical: 5.0,
@@ -82,14 +143,14 @@ class _PendapatanState extends State<Pendapatan> {
                           color: const Color(0xff8fd5a6),
                           elevation: 4,
                           child: ListTile(
-                            title: Text(data[index]['tglMasuk']),
+                            title: Text(pendapatan['tglMasuk']),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(data[index]['namaCust']),
-                                Text(data[index]['sepatuCust']),
-                                Text(data[index]['treatment']),
-                                Text(data[index]['hargaTreatment']),
+                                Text(pendapatan['namaCust']),
+                                Text(pendapatan['sepatuCust']),
+                                Text(pendapatan['treatment']),
+                                Text(pendapatan['hargaTreatment'].toString()),
                               ],
                             ),
                             trailing: PopupMenuButton<String>(
