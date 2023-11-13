@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:redlenshoescleaning/controller/authcontroller.dart';
 import 'package:redlenshoescleaning/controller/pendapatancontroller.dart';
 import 'package:redlenshoescleaning/controller/pengeluarancontroller.dart';
@@ -15,8 +16,40 @@ class _DataLaporanState extends State<DataLaporan> {
   final AuthController authController = AuthController();
   final PendapatanController pendapatanController = PendapatanController();
   final PengeluaranController pengeluaranController = PengeluaranController();
-  // DateTime startDate = DateTime.now();
-  // DateTime endDate = DateTime.now();
+  
+  // Add DateTime variables for StartDate and EndDate
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now();
+
+  // Function to show date picker for StartDate
+  Future<void> _selectStartDate(BuildContext context) async {
+    final DateTime picked = (await showDatePicker(
+      context: context,
+      initialDate: startDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    ))!;
+    if (picked != startDate) {
+      setState(() {
+        startDate = picked;
+      });
+    }
+  }
+  
+  // Function to show date picker for EndDate
+  Future<void> _selectEndDate(BuildContext context) async {
+    final DateTime picked = (await showDatePicker(
+      context: context,
+      initialDate: endDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    ))!;
+    if (picked != endDate) {
+      setState(() {
+        endDate = picked;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,82 +77,109 @@ class _DataLaporanState extends State<DataLaporan> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: FutureBuilder<List<String>>(
-            future: Future.wait([
-              getTotalPengeluaran(),
-              getTotalPendapatan(),
-            ]),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final List<String> data = snapshot.data!;
-                final String totalPengeluaran = data[0];
-                final String totalPendapatan = data[1];
-
-                double laba = double.parse(totalPendapatan) -
-                    double.parse(totalPengeluaran);
-
-                return Container(
-                  width: 350,
-                  height: 300,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff8fd5a6),
-                    borderRadius: BorderRadius.circular(20),
+          child: Column(
+            children: [
+              // Add StartDate selection
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Start Date: ${DateFormat('yyyy-MM-dd').format(startDate)}'),
+                  IconButton(
+                    icon: const Icon(Icons.calendar_today),
+                    onPressed: () => _selectStartDate(context),
                   ),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Pendapatan',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            _buildDecorationBox(double.parse(totalPendapatan)),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Pengeluaran',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              width: 18,
-                            ),
-                            _buildDecorationBox(double.parse(totalPengeluaran)),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Laba/Rugi',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              width: 33,
-                            ),
-                            _buildDecorationBox(laba),
-                          ],
-                        ),
-                      ],
-                    ),
+                ],
+              ),
+              // Add EndDate selection
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('End Date: ${DateFormat('yyyy-MM-dd').format(endDate)}'),
+                  IconButton(
+                    icon: const Icon(Icons.calendar_today),
+                    onPressed: () => _selectEndDate(context),
                   ),
-                );
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                return const CircularProgressIndicator();
-              }
-            },
+                ],
+              ),
+              const SizedBox(height: 20),
+              FutureBuilder<List<String>>(
+                future: Future.wait([
+                  getTotalPengeluaran(),
+                  getTotalPendapatan(),
+                ]),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final List<String> data = snapshot.data!;
+                    final String totalPengeluaran = data[0];
+                    final String totalPendapatan = data[1];
+
+                    double laba = double.parse(totalPendapatan) -
+                        double.parse(totalPengeluaran);
+
+                    return Container(
+                      width: 350,
+                      height: 300,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff8fd5a6),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Pendapatan',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                _buildDecorationBox(double.parse(totalPendapatan)),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Pengeluaran',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(
+                                  width: 18,
+                                ),
+                                _buildDecorationBox(double.parse(totalPengeluaran)),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Laba/Rugi',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(
+                                  width: 33,
+                                ),
+                                _buildDecorationBox(laba),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                },
+              ),
+            ],
           ),
         ),
       ),
