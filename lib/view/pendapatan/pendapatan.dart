@@ -9,9 +9,9 @@ import 'package:redlenshoescleaning/view/pendapatan/updatependapatan.dart';
 class Pendapatan extends StatefulWidget {
   const Pendapatan({Key? key});
 
-  get hargaTreatment => null;
+  // get hargaTreatment => null;
 
-  get harga => null;
+  // get harga => null;
 
   @override
   State<Pendapatan> createState() => _PendapatanState();
@@ -121,123 +121,123 @@ class _PendapatanState extends State<Pendapatan> {
                         vertical: 5.0,
                         horizontal: 20.0,
                       ),
-                      child: InkWell(
-                        onLongPress: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailPendapatan(
-                                tglMasuk: pendapatan['tglMasuk'],
-                                tglKeluar: pendapatan['tglKeluar'],
-                                namaCust: pendapatan['namaCust'],
-                                telpCust: pendapatan['telpCust'],
-                                alamatCust: pendapatan['alamatCust'],
-                                sepatuCust: pendapatan['sepatuCust'],
-                                treatment: pendapatan['treatment'],
-                                hargaTreatment: pendapatan['hargaTreatment'],
-                              ),
+                      child: Card(
+                        color: const Color(0xff8fd5a6),
+                        elevation: 4,
+                        child: ListTile(
+                          title: Text(pendapatan['tglMasuk']),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(pendapatan['namaCust']),
+                              Text(pendapatan['sepatuCust']),
+                              Text(pendapatan['treatment']),
+                              Text(pendapatan['hargaTreatment'].toString()),
+                            ],
+                          ),
+                          trailing: PopupMenuButton<String>(
+                            icon: const Icon(
+                              Icons.more_vert,
+                              size: 25,
                             ),
-                          );
-                        },
-                        child: Card(
-                          color: const Color(0xff8fd5a6),
-                          elevation: 4,
-                          child: ListTile(
-                            title: Text(pendapatan['tglMasuk']),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(pendapatan['namaCust']),
-                                Text(pendapatan['sepatuCust']),
-                                Text(pendapatan['treatment']),
-                                Text(pendapatan['hargaTreatment'].toString()),
-                              ],
-                            ),
-                            trailing: PopupMenuButton<String>(
-                              icon: const Icon(
-                                Icons.more_vert,
-                                size: 25,
-                              ),
-                              onSelected: (value) {
-                                if (value == 'edit') {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => UpdatePendapatan(
-                                        pendapatanID: data[index]
-                                            ['pendapatanID'],
-                                        namaCust: data[index]['namaCust'],
-                                        telpCust: data[index]['telpCust'],
-                                        alamatCust: data[index]['alamatCust'],
-                                        sepatuCust: data[index]['sepatuCust'],
-                                        treatment: data[index]['treatment'],
-                                        tglMasuk: data[index]['tglMasuk'],
-                                        tglKeluar: data[index]['tglKeluar'],
-                                        hargaTreatment: data[index]
-                                            ['hargaTreatment'],
-                                      ),
+                            onSelected: (value) {
+                              if (value == 'edit') {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => UpdatePendapatan(
+                                      pendapatanID: data[index]['pendapatanID'],
+                                      namaCust: data[index]['namaCust'],
+                                      telpCust: data[index]['telpCust'],
+                                      alamatCust: data[index]['alamatCust'],
+                                      sepatuCust: data[index]['sepatuCust'],
+                                      treatment: data[index]['treatment'],
+                                      tglMasuk: data[index]['tglMasuk'],
+                                      tglKeluar: data[index]['tglKeluar'],
+                                      hargaTreatment: data[index]
+                                          ['hargaTreatment'],
                                     ),
-                                  ).then((value) {
-                                    if (value == true) {
-                                      setState(() {
-                                        penc.getPendapatan();
-                                      });
-                                    }
-                                  });
-                                } else if (value == 'delete') {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        backgroundColor: Colors.white,
-                                        title: const Text(
-                                            'Konfirmasi Penghapusan'),
-                                        content: const Text(
-                                            'Yakin ingin menghapus pengeluaran ini?'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: const Text(
-                                              'Batal',
-                                              style:
-                                                  TextStyle(color: Colors.red),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
+                                  ),
+                                ).then((value) {
+                                  if (value == true) {
+                                    setState(() {
+                                      penc.getPendapatan();
+                                    });
+                                  }
+                                });
+                              } else if (value == 'delete') {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      backgroundColor: Colors.white,
+                                      title:
+                                          const Text('Konfirmasi Penghapusan'),
+                                      content: const Text(
+                                          'Yakin ingin menghapus pengeluaran ini?'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: const Text(
+                                            'Batal',
+                                            style: TextStyle(color: Colors.red),
                                           ),
-                                          TextButton(
-                                            child: const Text(
-                                              'Hapus',
-                                              style:
-                                                  TextStyle(color: Colors.blue),
-                                            ),
-                                            onPressed: () {
-                                              penc.removePendapatan(data[index]
-                                                      ['pendapatanID']
-                                                  .toString());
-                                              setState(() {
-                                                penc.getPendapatan();
-                                              });
-                                              Navigator.of(context).pop();
-                                            },
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: const Text(
+                                            'Hapus',
+                                            style:
+                                                TextStyle(color: Colors.blue),
                                           ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                }
-                              },
-                              itemBuilder: (context) => [
-                                const PopupMenuItem(
-                                  value: 'edit',
-                                  child: Text('Edit'),
-                                ),
-                                const PopupMenuItem(
-                                  value: 'delete',
-                                  child: Text('Delete'),
-                                ),
-                              ],
-                            ),
+                                          onPressed: () {
+                                            penc.removePendapatan(data[index]
+                                                    ['pendapatanID']
+                                                .toString());
+                                            setState(() {
+                                              penc.getPendapatan();
+                                            });
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              } else if (value == 'viewdetail') {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailPendapatan(
+                                      tglMasuk: pendapatan['tglMasuk'],
+                                      tglKeluar: pendapatan['tglKeluar'],
+                                      namaCust: pendapatan['namaCust'],
+                                      telpCust: pendapatan['telpCust'],
+                                      alamatCust: pendapatan['alamatCust'],
+                                      sepatuCust: pendapatan['sepatuCust'],
+                                      treatment: pendapatan['treatment'],
+                                      hargaTreatment:
+                                          pendapatan['hargaTreatment'],
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                            itemBuilder: (context) => [
+                              const PopupMenuItem(
+                                value: 'edit',
+                                child: Text('Ubah'),
+                              ),
+                              const PopupMenuItem(
+                                value: 'delete',
+                                child: Text('Hapus'),
+                              ),
+                              const PopupMenuItem(
+                                value: 'viewdetail',
+                                child: Text('Lihat Data'),
+                              ),
+                            ],
                           ),
                         ),
                       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:redlenshoescleaning/controller/treatmentcontroller.dart';
 import 'package:redlenshoescleaning/model/treatmentmodel.dart';
@@ -197,6 +198,12 @@ class _UpdateTreatmentState extends State<UpdateTreatment> {
                             filled: true,
                             fillColor: Colors.white,
                           ),
+                          keyboardType: TextInputType
+                              .number, // Set the keyboard type to number
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter
+                                .digitsOnly // Allow only digits
+                          ],
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Harga tidak boleh kosong!';

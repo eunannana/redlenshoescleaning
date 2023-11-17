@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:redlenshoescleaning/controller/pengeluarancontroller.dart';
@@ -268,6 +269,12 @@ class _UpdatePengeluaranState extends State<UpdatePengeluaran> {
                             filled: true,
                             fillColor: Colors.white,
                           ),
+                          keyboardType: TextInputType
+                              .number, // Set the keyboard type to number
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter
+                                .digitsOnly // Allow only digits
+                          ],
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Harga barang tidak boleh kosong!';

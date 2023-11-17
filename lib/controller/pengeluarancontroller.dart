@@ -54,10 +54,46 @@ class PengeluaranController {
     await pengeluaranCollection.doc(pengeluaranId).delete();
   }
 
-  Future getPengeluaran() async {
-    final pengeluaran = await pengeluaranCollection.get();
-    streamController.sink.add(pengeluaran.docs);
-    return pengeluaran.docs;
+  // Future getPengeluaran() async {
+  //   final pengeluaran = await pengeluaranCollection.get();
+  //   streamController.sink.add(pengeluaran.docs);
+  //   return pengeluaran.docs;
+  // }
+
+  Future<List<DocumentSnapshot>> getPengeluaran() async {
+    try {
+      final pengeluaran = await pengeluaranCollection
+          .orderBy('tanggal', descending: true)
+          .get();
+
+      pengeluaran.docs.forEach((doc) {
+        final pengeluaranModel =
+            PengeluaranModel.fromMap(doc.data() as Map<String, dynamic>);
+        print('tanggal: ${pengeluaranModel.tanggal}');
+      });
+
+      // Convert the data to DateTime for sorting
+      final sortedData = pengeluaran.docs.map((doc) {
+        final pengeluaranModel =
+            PengeluaranModel.fromMap(doc.data() as Map<String, dynamic>);
+        final tanggal =
+            DateFormat("dd-MM-yyyy").parse(pengeluaranModel.tanggal);
+        return {'doc': doc, 'tanggal': tanggal};
+      }).toList();
+
+      // Sort the data by tglKeluar in descending order
+      sortedData.sort((a, b) =>
+          (b['tanggal'] as Comparable).compareTo(a['tanggal'] as Comparable));
+
+      // Update the stream with the sorted data
+      streamController.sink.add(
+          sortedData.map((item) => (item['doc'] as DocumentSnapshot)).toList());
+
+      return pengeluaran.docs;
+    } catch (e) {
+      print('Error while getting pengeluaran: $e');
+      return [];
+    }
   }
 
   Future<String> getTotalPengeluaran() async {
