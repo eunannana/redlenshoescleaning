@@ -10,6 +10,7 @@ class PendapatanController {
       StreamController<List<DocumentSnapshot>>.broadcast();
 
   Stream<List<DocumentSnapshot>> get stream => streamController.stream;
+  List<DocumentSnapshot> currentData = [];
 
   Future<void> addPendapatan(PendapatanModel penmodel) async {
     final pendapatan = penmodel.toMap();
@@ -71,6 +72,7 @@ class PendapatanController {
     try {
       final pendapatan = await pendapatanCollection
           .orderBy('tglMasuk', descending: true)
+          .limit(7)
           .get();
 
       pendapatan.docs.forEach((doc) {
@@ -137,5 +139,43 @@ class PendapatanController {
     });
 
     return filteredPendapatan;
+  }
+
+  Future<void> loadMorePendapatan() async {
+    try {
+      if (streamController.isClosed) {
+        // Check if the stream controller is closed
+        return;
+      }
+
+      if (currentData.isNotEmpty) {
+        var lastDocument = currentData.last;
+        print('Last Document ID: ${lastDocument.id}');
+
+        final pendapatan = await pendapatanCollection
+            .orderBy('tglMasuk', descending: true)
+            .startAfterDocument(lastDocument)
+            .limit(7)
+            .get();
+
+        if (pendapatan.docs.isNotEmpty) {
+          currentData.addAll(pendapatan.docs);
+
+          // Update the last document for the next load
+          lastDocument = currentData.last;
+
+          streamController.sink.add(List.from(currentData));
+          print('Loaded more pendapatan: ${pendapatan.docs.length} items');
+        } else {
+          print('No additional pendapatan loaded.');
+        }
+      }
+    } catch (e) {
+      print('Error while loading more pendapatan: $e');
+    }
+  }
+
+  void dispose() {
+    streamController.close();
   }
 }
