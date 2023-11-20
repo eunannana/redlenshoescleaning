@@ -31,7 +31,7 @@ class PendapatanController {
       hargaTreatment: penmodel.hargaTreatment,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
-      deletedAt: DateTime.now(),
+      deletedAt: DateTime.fromMillisecondsSinceEpoch(0),
     );
 
     await docRef.update(pendapatanModel.toMap());
@@ -59,8 +59,36 @@ class PendapatanController {
   }
 
   Future<void> removePendapatan(String pendapatanID) async {
-    await pendapatanCollection.doc(pendapatanID).delete();
+    try {
+      final DocumentReference docRef = pendapatanCollection.doc(pendapatanID);
+
+      final PendapatanModel existingData = PendapatanModel.fromMap(
+          (await docRef.get()).data() as Map<String, dynamic>);
+
+      final PendapatanModel pendapatanModel = PendapatanModel(
+        namaCust: existingData.namaCust,
+        telpCust: existingData.telpCust,
+        alamatCust: existingData.alamatCust,
+        sepatuCust: existingData.sepatuCust,
+        treatment: existingData.treatment,
+        tglMasuk: existingData.tglMasuk,
+        tglKeluar: existingData.tglKeluar,
+        hargaTreatment: existingData.hargaTreatment,
+        pendapatanID: existingData.pendapatanID,
+        createdAt: existingData.createdAt,
+        updatedAt: existingData.updatedAt,
+        deletedAt: DateTime.now(), // Set deletedAt to current date and time
+      );
+
+      await docRef.update(pendapatanModel.toMap());
+    } catch (e) {
+      print('Error while soft deleting pendapatan: $e');
+    }
   }
+
+  // Future<void> removePendapatan(String pendapatanID) async {
+  //   await pendapatanCollection.doc(pendapatanID).delete();
+  // }
 
   // Future<List<DocumentSnapshot>> getPendapatan() async {
   //   final pendapatan = await pendapatanCollection.get();
@@ -71,6 +99,7 @@ class PendapatanController {
   Future<List<DocumentSnapshot>> getPendapatan() async {
     try {
       final pendapatan = await pendapatanCollection
+      .where('deletedAt', isEqualTo: 0)
           .orderBy('tglMasuk', descending: true)
           // .limit(7)
           .get();
@@ -107,7 +136,9 @@ class PendapatanController {
 
   Future<String> getTotalPendapatan() async {
     try {
-      final pendapatan = await pendapatanCollection.get();
+      final pendapatan = await pendapatanCollection
+      .where( 'deletedAt', isEqualTo: 0)
+      .get();
       double total = 0;
       pendapatan.docs.forEach((doc) {
         PendapatanModel pendapatanModel =

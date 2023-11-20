@@ -28,7 +28,7 @@ class PengeluaranController {
       tanggal: pmodel.tanggal,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
-      deletedAt: DateTime.now(),
+      deletedAt: DateTime.fromMillisecondsSinceEpoch(0),
     );
 
     await docRef.update(pengeluaranModel.toMap());
@@ -40,9 +40,9 @@ class PengeluaranController {
       keterangan: pmodel.keterangan,
       harga: pmodel.harga,
       tanggal: pmodel.tanggal,
-      createdAt: DateTime.now(),
+      createdAt: pmodel.createdAt,
       updatedAt: DateTime.now(),
-      deletedAt: DateTime.now(),
+      deletedAt: pmodel.deletedAt,
     );
 
     await pengeluaranCollection
@@ -51,8 +51,31 @@ class PengeluaranController {
   }
 
   Future<void> removePengeluaran(String pengeluaranId) async {
-    await pengeluaranCollection.doc(pengeluaranId).delete();
+    try {
+      final DocumentReference docRef = pengeluaranCollection.doc(pengeluaranId);
+
+      final PengeluaranModel existingData = PengeluaranModel.fromMap(
+          (await docRef.get()).data() as Map<String, dynamic>);
+
+      final PengeluaranModel pengeluaranModel = PengeluaranModel(
+        pengeluaranId: existingData.pengeluaranId,
+        keterangan: existingData.keterangan,
+        harga: existingData.harga,
+        tanggal: existingData.tanggal,
+        createdAt: existingData.createdAt,
+        updatedAt: DateTime.now(),
+        deletedAt: DateTime.now(), // Set deletedAt to current date and time
+      );
+
+      await docRef.update(pengeluaranModel.toMap());
+    } catch (e) {
+      print('Error while soft deleting pengeluaran: $e');
+    }
   }
+
+  // Future<void> removePengeluaran(String pengeluaranId) async {
+  //   await pengeluaranCollection.doc(pengeluaranId).delete();
+  // }
 
   // Future getPengeluaran() async {
   //   final pengeluaran = await pengeluaranCollection.get();
@@ -63,6 +86,7 @@ class PengeluaranController {
   Future<List<DocumentSnapshot>> getPengeluaran() async {
     try {
       final pengeluaran = await pengeluaranCollection
+          .where('deletedAt', isEqualTo: 0)
           .orderBy('tanggal', descending: true)
           .get();
 
@@ -98,7 +122,9 @@ class PengeluaranController {
 
   Future<String> getTotalPengeluaran() async {
     try {
-      final pengeluaran = await pengeluaranCollection.get();
+      final pengeluaran = await pengeluaranCollection
+      .where( 'deletedAt', isEqualTo: 0)
+      .get();
       double total = 0;
       pengeluaran.docs.forEach((doc) {
         PengeluaranModel pengeluaranModel =

@@ -18,6 +18,9 @@ class _DataLaporanState extends State<DataLaporan> {
   final AuthController authController = AuthController();
   final PendapatanController pendapatanController = PendapatanController();
   final PengeluaranController pengeluaranController = PengeluaranController();
+  
+    // Add a flag to check if it's the first page load
+  bool isFirstLoad = true;
 
   // Add DateTime variables for StartDate and EndDate
   DateTime startDate = DateTime.now();
@@ -34,6 +37,7 @@ class _DataLaporanState extends State<DataLaporan> {
     if (picked != startDate) {
       setState(() {
         startDate = picked;
+        isFirstLoad = false;
       });
     }
   }
@@ -49,6 +53,7 @@ class _DataLaporanState extends State<DataLaporan> {
     if (picked != endDate) {
       setState(() {
         endDate = picked;
+        isFirstLoad = false;
       });
     }
   }
@@ -145,7 +150,9 @@ class _DataLaporanState extends State<DataLaporan> {
               //           double.parse(totalPengeluaran);
               // Modify the FutureBuilder to use filtered data
               FutureBuilder<List<String>>(
-                future: getFilteredData(startDate, endDate),
+                future: isFirstLoad
+                    ? Future.wait([getTotalPengeluaran(),getTotalPendapatan()])  // Fetch all data for the first time
+                    : getFilteredData(startDate, endDate),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final List<String> data = snapshot.data!;
