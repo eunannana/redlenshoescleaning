@@ -143,7 +143,9 @@ class PengeluaranController {
     DateTime startDate,
     DateTime endDate,
   ) async {
-    final pengeluaran = await pengeluaranCollection.get();
+    final pengeluaran = await pengeluaranCollection
+    .where('deletedAt', isEqualTo: 0)
+    .get();
     final filteredPengeluaran = <PengeluaranModel>[];
 
     pengeluaran.docs.forEach((doc) {

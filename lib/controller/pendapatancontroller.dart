@@ -156,7 +156,9 @@ class PendapatanController {
 
   Future<List<PendapatanModel>> getPendapatanByDate(
       DateTime startDate, DateTime endDate) async {
-    final pendapatan = await pendapatanCollection.get();
+    final pendapatan = await pendapatanCollection
+    .where('deletedAt', isEqualTo: 0)
+    .get();
     final filteredPendapatan = <PendapatanModel>[];
 
     pendapatan.docs.forEach((doc) {
