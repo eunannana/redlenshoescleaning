@@ -17,45 +17,18 @@ class _PendapatanState extends State<Pendapatan> {
   var penc = PendapatanController();
   String keyword = "";
   bool isSearching = false;
-  late ScrollController _scrollController;
-  bool isLoading = false;
 
   @override
   void initState() {
-    _scrollController = ScrollController();
-    _scrollController.addListener(_scrollListener);
     penc.getPendapatan();
     super.initState();
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    penc.dispose();
-    super.dispose();
-  }
-
-  void _scrollListener() {
-    if (!_scrollController.position.outOfRange &&
-        _scrollController.position.pixels >=
-            _scrollController.position.maxScrollExtent - 200.0 &&
-        !isLoading) {
-      setState(() {
-        isLoading = true;
-      });
-
-      // Delay for 2 seconds before loading more data
-      Future.delayed(Duration(seconds: 2), () async {
-        print('Loading more data...');
-        await penc.loadMorePendapatan();
-
-        setState(() {
-          isLoading = false;
-        });
-        print('Loading complete.');
-      });
-    }
-  }
+  // @override
+  // void dispose() {
+  //   penc.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +114,6 @@ class _PendapatanState extends State<Pendapatan> {
                 }).toList();
 
                 return ListView.builder(
-                  controller: _scrollController,
                   itemCount: filteredDocuments.length,
                   itemBuilder: (context, index) {
                     final pendapatan =
