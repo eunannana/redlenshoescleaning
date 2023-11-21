@@ -6,6 +6,7 @@ import 'package:redlenshoescleaning/controller/pendapatancontroller.dart';
 import 'package:redlenshoescleaning/controller/pengeluarancontroller.dart';
 import 'package:redlenshoescleaning/model/pendapatanmodel.dart';
 import 'package:redlenshoescleaning/model/pengeluaranmodel.dart';
+import 'package:redlenshoescleaning/view/login.dart';
 
 class DataLaporan extends StatefulWidget {
   const DataLaporan({Key? key}) : super(key: key);
@@ -92,6 +93,12 @@ class _DataLaporanState extends State<DataLaporan> {
             icon: const Icon(Icons.logout),
             onPressed: () {
               authController.signOut();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Login(),
+                ),
+              );
             },
           ),
         ],

@@ -6,61 +6,56 @@ import 'package:redlenshoescleaning/view/laporan.dart';
 import 'package:redlenshoescleaning/view/login.dart';
 
 class FirstPage extends StatefulWidget {
-  const FirstPage({super.key});
+  const FirstPage({Key? key}) : super(key: key);
 
   @override
   State<FirstPage> createState() => _FirstPageState();
 }
 
 class _FirstPageState extends State<FirstPage> {
-  final authctrl = AuthController();
+  final authCtrl = AuthController();
 
   bool isLogin = false;
 
   Future<void> silentLogin() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
+    try {
+      FirebaseAuth auth = FirebaseAuth.instance;
+      User? user = auth.currentUser;
 
-    User? user = auth.currentUser;
+      if (user != null && user.uid.isNotEmpty) {
+        DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .get();
 
-    if (user != null && user.uid.isNotEmpty) {
-      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .get();
-
-      if (userSnapshot.exists) {
-        setState(() {
-          isLogin = true;
-        });
+        if (userSnapshot.exists) {
+          setState(() {
+            isLogin = true;
+          });
+        }
       }
+    } catch (e) {
+      print("Error during silent login: $e");
     }
   }
 
   int currentIndex = 0;
 
-  void onTap(int index) {
-    setState(() {
-      currentIndex = index;
-    });
-  }
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
-    authctrl.getCurrentUser();
-
+    // Call silentLogin to check for silent login on page load
     silentLogin();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isLogin == true) {
-      return Laporan();
+    if (isLogin) {
+      return const Laporan();
     } else {
-      return Login();
+      return const Login();
     }
   }
 }
