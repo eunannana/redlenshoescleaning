@@ -86,20 +86,10 @@ class PendapatanController {
     }
   }
 
-  // Future<void> removePendapatan(String pendapatanID) async {
-  //   await pendapatanCollection.doc(pendapatanID).delete();
-  // }
-
-  // Future<List<DocumentSnapshot>> getPendapatan() async {
-  //   final pendapatan = await pendapatanCollection.get();
-  //   streamController.sink.add(pendapatan.docs);
-  //   return pendapatan.docs;
-  // }
-
   Future<List<DocumentSnapshot>> getPendapatan() async {
     try {
       final pendapatan = await pendapatanCollection
-      .where('deletedAt', isEqualTo: 0)
+          .where('deletedAt', isEqualTo: 0)
           .orderBy('tglMasuk', descending: true)
           // .limit(7)
           .get();
@@ -136,9 +126,8 @@ class PendapatanController {
 
   Future<String> getTotalPendapatan() async {
     try {
-      final pendapatan = await pendapatanCollection
-      .where( 'deletedAt', isEqualTo: 0)
-      .get();
+      final pendapatan =
+          await pendapatanCollection.where('deletedAt', isEqualTo: 0).get();
       double total = 0;
       pendapatan.docs.forEach((doc) {
         PendapatanModel pendapatanModel =
@@ -156,9 +145,8 @@ class PendapatanController {
 
   Future<List<PendapatanModel>> getPendapatanByDate(
       DateTime startDate, DateTime endDate) async {
-    final pendapatan = await pendapatanCollection
-    .where('deletedAt', isEqualTo: 0)
-    .get();
+    final pendapatan =
+        await pendapatanCollection.where('deletedAt', isEqualTo: 0).get();
     final filteredPendapatan = <PendapatanModel>[];
 
     pendapatan.docs.forEach((doc) {
@@ -173,40 +161,6 @@ class PendapatanController {
 
     return filteredPendapatan;
   }
-
-  // Future<void> loadMorePendapatan() async {
-  //   try {
-  //     if (streamController.isClosed) {
-  //       // Check if the stream controller is closed
-  //       return;
-  //     }
-
-  //     if (currentData.isNotEmpty) {
-  //       var lastDocument = currentData.last;
-  //       print('Last Document ID: ${lastDocument.id}');
-
-  //       final pendapatan = await pendapatanCollection
-  //           .orderBy('tglMasuk', descending: true)
-  //           .startAfterDocument(lastDocument)
-  //           .limit(15)
-  //           .get();
-
-  //       if (pendapatan.docs.isNotEmpty) {
-  //         currentData.addAll(pendapatan.docs);
-
-  //         // Update the last document for the next load
-  //         lastDocument = currentData.last;
-
-  //         streamController.sink.add(List.from(currentData));
-  //         print('Loaded more pendapatan: ${pendapatan.docs.length} items');
-  //       } else {
-  //         print('No additional pendapatan loaded.');
-  //       }
-  //     }
-  //   } catch (e) {
-  //     print('Error while loading more pendapatan: $e');
-  //   }
-  // }
 
   void dispose() {
     streamController.close();

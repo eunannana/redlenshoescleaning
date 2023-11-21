@@ -18,8 +18,8 @@ class _DataLaporanState extends State<DataLaporan> {
   final AuthController authController = AuthController();
   final PendapatanController pendapatanController = PendapatanController();
   final PengeluaranController pengeluaranController = PengeluaranController();
-  
-    // Add a flag to check if it's the first page load
+
+  // Add a flag to check if it's the first page load
   bool isFirstLoad = true;
 
   // Add DateTime variables for StartDate and EndDate
@@ -111,47 +111,13 @@ class _DataLaporanState extends State<DataLaporan> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              // Add StartDate selection
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                      'Start Date: ${DateFormat('yyyy-MM-dd').format(startDate)}'),
-                  IconButton(
-                    icon: const Icon(Icons.calendar_today),
-                    onPressed: () => _selectStartDate(context),
-                  ),
-                ],
-              ),
-              // Add EndDate selection
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('End Date: ${DateFormat('yyyy-MM-dd').format(endDate)}'),
-                  IconButton(
-                    icon: const Icon(Icons.calendar_today),
-                    onPressed: () => _selectEndDate(context),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              // FutureBuilder<List<String>>(
-              //   future: Future.wait([
-              //     getTotalPengeluaran(),
-              //     getTotalPendapatan(),
-              //   ]),
-              //   builder: (context, snapshot) {
-              //     if (snapshot.hasData) {
-              //       final List<String> data = snapshot.data!;
-              //       final String totalPengeluaran = data[0];
-              //       final String totalPendapatan = data[1];
-
-              //       double laba = double.parse(totalPendapatan) -
-              //           double.parse(totalPengeluaran);
-              // Modify the FutureBuilder to use filtered data
+              const SizedBox(height: 100),
               FutureBuilder<List<String>>(
                 future: isFirstLoad
-                    ? Future.wait([getTotalPengeluaran(),getTotalPendapatan()])  // Fetch all data for the first time
+                    ? Future.wait([
+                        getTotalPengeluaran(),
+                        getTotalPendapatan()
+                      ]) // Fetch all data for the first time
                     : getFilteredData(startDate, endDate),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -164,7 +130,7 @@ class _DataLaporanState extends State<DataLaporan> {
 
                     return Container(
                       width: 350,
-                      height: 300,
+                      height: 350,
                       decoration: BoxDecoration(
                         color: const Color(0xff8fd5a6),
                         borderRadius: BorderRadius.circular(20),
@@ -173,6 +139,126 @@ class _DataLaporanState extends State<DataLaporan> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '   Dari Tanggal',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  width: 50,
+                                ),
+                                Text(
+                                  'Sampai Tanggal',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // Start Date
+                                Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 4.0),
+                                  padding: const EdgeInsets.only(left: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(color: Colors.black),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width:
+                                              75, // Adjust the width according to your preference
+                                          height: 25,
+                                          child: TextFormField(
+                                            readOnly: true,
+                                            controller: TextEditingController(
+                                              text: DateFormat('dd-MM-yyyy')
+                                                  .format(startDate),
+                                            ),
+                                            onTap: () =>
+                                                _selectStartDate(context),
+                                            style: const TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            decoration: const InputDecoration(
+                                              border: InputBorder.none,
+                                            ),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.calendar_today,
+                                            size: 20.0,
+                                          ),
+                                          onPressed: () =>
+                                              _selectStartDate(context),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                // End Date
+                                Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 4.0),
+                                  padding: const EdgeInsets.only(left: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(color: Colors.black),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width:
+                                              75, // Adjust the width according to your preference
+                                          height: 25,
+                                          child: TextFormField(
+                                            readOnly: true,
+                                            controller: TextEditingController(
+                                              text: DateFormat('dd-MM-yyyy')
+                                                  .format(endDate),
+                                            ),
+                                            onTap: () =>
+                                                _selectEndDate(context),
+                                            style: const TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            decoration: const InputDecoration(
+                                              border: InputBorder.none,
+                                            ),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.calendar_today,
+                                            size: 20.0,
+                                          ),
+                                          onPressed: () =>
+                                              _selectEndDate(context),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 40),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

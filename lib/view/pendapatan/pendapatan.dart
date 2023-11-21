@@ -24,12 +24,6 @@ class _PendapatanState extends State<Pendapatan> {
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //   penc.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
