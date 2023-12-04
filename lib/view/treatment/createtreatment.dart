@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart'; // Import the intl package
 import 'package:redlenshoescleaning/controller/treatmentcontroller.dart';
 import 'package:redlenshoescleaning/model/treatmentmodel.dart';
 
@@ -20,6 +21,15 @@ class _CreateTreatmentState extends State<CreateTreatment> {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
+
+  TextEditingController hargaController =
+      TextEditingController(); // Add this line
+
+  @override
+  void dispose() {
+    hargaController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +125,7 @@ class _CreateTreatmentState extends State<CreateTreatment> {
                       Container(
                         width: 300,
                         child: TextFormField(
+                          controller: hargaController, // Add this line
                           decoration: InputDecoration(
                             hintText: 'Harga',
                             border: OutlineInputBorder(
@@ -132,13 +143,35 @@ class _CreateTreatmentState extends State<CreateTreatment> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Harga tidak boleh kosong!';
-                            } else if (!RegExp(r'^\d+$').hasMatch(value)) {
-                              return 'Harga harus berisi angka saja.';
                             }
+                            // else if (!RegExp(r'^\d+$').hasMatch(value)) {
+                            //   return 'Harga harus berisi angka saja.';
+                            // }
                             return null;
                           },
                           onChanged: (value) {
-                            hargaTreatment = value;
+                            final numberFormat = NumberFormat("#,##0", "id_ID");
+                            final newValue = value.replaceAll(",", "");
+
+                            if (newValue.isNotEmpty) {
+                              final formattedHarga =
+                                  'Rp ${numberFormat.format(int.parse(newValue))}';
+
+                              setState(() {
+                                hargaTreatment = formattedHarga;
+                              });
+
+                              hargaController.value =
+                                  hargaController.value.copyWith(
+                                text: formattedHarga,
+                                selection: TextSelection.collapsed(
+                                    offset: formattedHarga.length),
+                              );
+                            } else {
+                              setState(() {
+                                hargaTreatment = null;
+                              });
+                            }
                           },
                         ),
                       ),
