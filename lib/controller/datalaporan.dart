@@ -338,33 +338,7 @@ class _DataLaporanState extends State<DataLaporan> {
   }
 }
 
-// Widget _buildDecorationBox(double value) {
-//   return Container(
-//     width: 150,
-//     height: 35,
-//     decoration: BoxDecoration(
-//       color: Colors.white,
-//       border: Border.all(),
-//       borderRadius: BorderRadius.circular(5),
-//     ),
-//     child: Center(
-//       child: Text(
-//         value.toStringAsFixed(2),
-//         style: const TextStyle(
-//           fontWeight: FontWeight.bold,
-//         ),
-//       ),
-//     ),
-//   );
-// }
-
 Widget _buildDecorationBox(double value) {
-  final currencyFormatter =
-      NumberFormat.currency(locale: 'id_ID', symbol: 'Rp');
-
-  String formattedValue = currencyFormatter.format(value);
-  formattedValue = formattedValue.replaceAll(RegExp(r'(\.00)(?!.*\d)'), '');
-
   return Container(
     width: 150,
     height: 35,
@@ -375,7 +349,7 @@ Widget _buildDecorationBox(double value) {
     ),
     child: Center(
       child: Text(
-        formattedValue,
+        value.toStringAsFixed(2),
         style: const TextStyle(
           fontWeight: FontWeight.bold,
         ),

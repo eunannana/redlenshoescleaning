@@ -82,7 +82,7 @@ class _CreateTreatmentState extends State<CreateTreatment> {
                         width: 300,
                         child: TextFormField(
                           decoration: InputDecoration(
-                            hintText: 'Jenis Treatment',
+                            hintText: 'Masukkan jenis treatment',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -127,7 +127,7 @@ class _CreateTreatmentState extends State<CreateTreatment> {
                         child: TextFormField(
                           controller: hargaController, // Add this line
                           decoration: InputDecoration(
-                            hintText: 'Harga',
+                            hintText: 'Masukkan harga',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -143,10 +143,10 @@ class _CreateTreatmentState extends State<CreateTreatment> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Harga tidak boleh kosong!';
+                            } else if (!RegExp(r'^\d+(\.\d+)?$')
+                                .hasMatch(value)) {
+                              return 'Harga harus berisi angka saja.';
                             }
-                            // else if (!RegExp(r'^\d+$').hasMatch(value)) {
-                            //   return 'Harga harus berisi angka saja.';
-                            // }
                             return null;
                           },
                           onChanged: (value) {
@@ -155,7 +155,7 @@ class _CreateTreatmentState extends State<CreateTreatment> {
 
                             if (newValue.isNotEmpty) {
                               final formattedHarga =
-                                  'Rp ${numberFormat.format(int.parse(newValue))}';
+                                  numberFormat.format(int.parse(newValue));
 
                               setState(() {
                                 hargaTreatment = formattedHarga;

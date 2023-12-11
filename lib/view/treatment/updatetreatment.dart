@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:redlenshoescleaning/controller/treatmentcontroller.dart';
 import 'package:redlenshoescleaning/model/treatmentmodel.dart';
 
@@ -207,10 +208,35 @@ class _UpdateTreatmentState extends State<UpdateTreatment> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Harga tidak boleh kosong!';
-                            } else if (!RegExp(r'^\d+$').hasMatch(value)) {
+                            } else if (!RegExp(r'^\d+(\.\d+)?$')
+                                .hasMatch(value)) {
                               return 'Harga harus berisi angka saja.';
                             }
                             return null;
+                          },
+                          onChanged: (value) {
+                            final numberFormat = NumberFormat("#,##0", "id_ID");
+                            final newValue = value.replaceAll(",", "");
+
+                            if (newValue.isNotEmpty) {
+                              final formattedHarga =
+                                  numberFormat.format(int.parse(newValue));
+
+                              setState(() {
+                                newhargaTreatment = formattedHarga;
+                              });
+
+                              _hargaTreatmentController.value =
+                                  _hargaTreatmentController.value.copyWith(
+                                text: formattedHarga,
+                                selection: TextSelection.collapsed(
+                                    offset: formattedHarga.length),
+                              );
+                            } else {
+                              setState(() {
+                                newhargaTreatment = null;
+                              });
+                            }
                           },
                         ),
                       ),

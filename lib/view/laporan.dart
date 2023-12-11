@@ -13,7 +13,7 @@ class Laporan extends StatefulWidget {
 
 class _LaporanState extends State<Laporan> {
   int _selectedIndex = 0;
-  String _searchQuery = '';
+  // String _searchQuery = '';
 
   final List<Widget> _pages = [
     const DataLaporan(),
@@ -28,11 +28,11 @@ class _LaporanState extends State<Laporan> {
     });
   }
 
-  void _updateSearchQuery(String query) {
-    setState(() {
-      _searchQuery = query;
-    });
-  }
+  // void _updateSearchQuery(String query) {
+  //   setState(() {
+  //     _searchQuery = query;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class _LaporanState extends State<Laporan> {
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(25.0)),
         child: SizedBox(
-          height: 80,
+          height: 89,
           child: BottomNavigationBar(
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.black,
@@ -64,7 +64,7 @@ class _LaporanState extends State<Laporan> {
                 backgroundColor: Color(0xFF0C8346),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.analytics_sharp),
+                icon: Icon(Icons.list_alt_sharp),
                 label: 'Treatment',
                 backgroundColor: Color(0xFF0C8346),
               ),

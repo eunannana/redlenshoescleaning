@@ -62,8 +62,8 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
+                    const Padding(
+                      padding: EdgeInsets.symmetric(
                         vertical: 10.0,
                         horizontal: 30.0,
                       ),
@@ -387,13 +387,11 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
                         } else {
                           List<DropdownMenuItem<String>> dropdownItems = [];
                           final items = snapshot.data!.docs.where((element) {
-                            // Check if 'deletedAt' key exists and is not null
-                            return element['deletedAt'] != null &&
-                                element['deletedAt'] == 0;
+                            return element['deletedAt'] == null ||
+                                element['deletedAt'] != 0;
                           }).toList();
 
                           for (var item in items) {
-                            // Assuming the 'jenistreatment' field exists in each document
                             String itemName = item['treatment'];
                             dropdownItems.add(
                               DropdownMenuItem(
@@ -402,6 +400,7 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
                               ),
                             );
                           }
+
                           return Container(
                             width: 300,
                             child: DropdownButtonFormField<String>(
@@ -414,8 +413,7 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
                                 setState(() {
                                   treatment = item;
                                 });
-                                hargaTreatment = await getHargaByItem(
-                                    item!); // Fetch the harga for the selected item
+                                hargaTreatment = await getHargaByItem(item!);
                               },
                               decoration: InputDecoration(
                                 hintText: 'Pilih Jenis Treatment',
