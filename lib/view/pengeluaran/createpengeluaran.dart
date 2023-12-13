@@ -46,13 +46,21 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
           ),
         ),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
+      body: SafeArea(
+        child: Container(
+          width: 450,
+          height: 1000,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/image/LoginPage.png'),
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+          child: Center(
+            // Wrap the Container with Center
             child: Container(
               width: 350,
-              height: 520,
+              height: 490,
               decoration: BoxDecoration(
                 color: const Color(0xff8fd5a6),
                 borderRadius: BorderRadius.circular(20),
@@ -63,6 +71,7 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      const SizedBox(height: 20),
                       const Padding(
                         padding: EdgeInsets.symmetric(
                           vertical: 10.0,
@@ -71,7 +80,7 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Tanggal', // Teks di atas TextFormField
+                            'Tanggal Pengeluaran', // Teks di atas TextFormField
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -85,6 +94,7 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
                         child: TextFormField(
                           controller: _tanggalController,
                           decoration: InputDecoration(
+                            hintText: 'Pilih tanggal pengeluaran',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -141,7 +151,7 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
                         width: 300,
                         child: TextFormField(
                           decoration: InputDecoration(
-                            hintText: 'Nama Barang',
+                            hintText: 'Masukkan nama barang',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -186,7 +196,7 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
                         child: TextFormField(
                           controller: hargaController,
                           decoration: InputDecoration(
-                            hintText: 'Harga Barang',
+                            hintText: 'Masukkan harga barang',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -270,6 +280,7 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
                           ),
                         ),
                       ),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),

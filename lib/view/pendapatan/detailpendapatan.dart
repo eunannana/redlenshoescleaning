@@ -64,7 +64,7 @@ class DetailPendapatan extends StatelessWidget {
               buildDivider(),
               buildDetailItem('Jenis Treatment', treatment),
               buildDivider(),
-              buildDetailItem('Harga', hargaTreatment),
+              buildDetailItem('Harga', 'Rp$hargaTreatment'),
             ],
           ),
         ),

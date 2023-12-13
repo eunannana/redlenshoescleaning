@@ -113,214 +113,227 @@ class _DataLaporanState extends State<DataLaporan> {
           ),
         ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              const SizedBox(height: 100),
-              FutureBuilder<List<String>>(
-                future: isFirstLoad
-                    ? Future.wait([
-                        getTotalPengeluaran(),
-                        getTotalPendapatan()
-                      ]) // Fetch all data for the first time
-                    : getFilteredData(startDate, endDate),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final List<String> data = snapshot.data!;
-                    final String totalPengeluaran = data[0];
-                    final String totalPendapatan = data[1];
+      body: SafeArea(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/image/LoginPage.png'),
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+          child: Center(
+            child: Column(
+              children: [
+                const SizedBox(height: 100),
+                FutureBuilder<List<String>>(
+                  future: isFirstLoad
+                      ? Future.wait([
+                          getTotalPengeluaran(),
+                          getTotalPendapatan()
+                        ]) // Fetch all data for the first time
+                      : getFilteredData(startDate, endDate),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final List<String> data = snapshot.data!;
+                      final String totalPengeluaran = data[0];
+                      final String totalPendapatan = data[1];
 
-                    double laba = double.parse(totalPendapatan) -
-                        double.parse(totalPengeluaran);
+                      double laba = double.parse(totalPendapatan) -
+                          double.parse(totalPengeluaran);
 
-                    return Container(
-                      width: 350,
-                      height: 350,
-                      decoration: BoxDecoration(
-                        color: const Color(0xff8fd5a6),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '   Dari Tanggal',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  width: 50,
-                                ),
-                                Text(
-                                  'Sampai Tanggal',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // Start Date
-                                Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 8.0, horizontal: 4.0),
-                                  padding: const EdgeInsets.only(left: 10),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(color: Colors.black),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          width:
-                                              75, // Adjust the width according to your preference
-                                          height: 25,
-                                          child: TextFormField(
-                                            readOnly: true,
-                                            controller: TextEditingController(
-                                              text: DateFormat('dd-MM-yyyy')
-                                                  .format(startDate),
-                                            ),
-                                            onTap: () =>
-                                                _selectStartDate(context),
-                                            style: const TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            decoration: const InputDecoration(
-                                              border: InputBorder.none,
-                                            ),
-                                          ),
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.calendar_today,
-                                            size: 20.0,
-                                          ),
-                                          onPressed: () =>
-                                              _selectStartDate(context),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                // End Date
-                                Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 8.0, horizontal: 4.0),
-                                  padding: const EdgeInsets.only(left: 10),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(color: Colors.black),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          width:
-                                              75, // Adjust the width according to your preference
-                                          height: 25,
-                                          child: TextFormField(
-                                            readOnly: true,
-                                            controller: TextEditingController(
-                                              text: DateFormat('dd-MM-yyyy')
-                                                  .format(endDate),
-                                            ),
-                                            onTap: () =>
-                                                _selectEndDate(context),
-                                            style: const TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            decoration: const InputDecoration(
-                                              border: InputBorder.none,
-                                            ),
-                                          ),
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.calendar_today,
-                                            size: 20.0,
-                                          ),
-                                          onPressed: () =>
-                                              _selectEndDate(context),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 40),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  'Pendapatan',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                _buildDecorationBox(
-                                    double.parse(totalPendapatan)),
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  'Pengeluaran',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(
-                                  width: 18,
-                                ),
-                                _buildDecorationBox(
-                                    double.parse(totalPengeluaran)),
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  'Laba/Rugi',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(
-                                  width: 33,
-                                ),
-                                _buildDecorationBoxLaba(laba),
-                              ],
-                            ),
-                          ],
+                      return Container(
+                        width: 350,
+                        height: 350,
+                        decoration: BoxDecoration(
+                          color: const Color(0xff8fd5a6),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
-                },
-              ),
-            ],
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '   Dari Tanggal',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    width: 50,
+                                  ),
+                                  Text(
+                                    'Sampai Tanggal',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  // Start Date
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 8.0, horizontal: 4.0),
+                                    padding: const EdgeInsets.only(left: 10),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SizedBox(
+                                            width:
+                                                75, // Adjust the width according to your preference
+                                            height: 25,
+                                            child: TextFormField(
+                                              readOnly: true,
+                                              controller: TextEditingController(
+                                                text: DateFormat('dd-MM-yyyy')
+                                                    .format(startDate),
+                                              ),
+                                              onTap: () =>
+                                                  _selectStartDate(context),
+                                              style: const TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              decoration: const InputDecoration(
+                                                hintText: 'Masukkan tanggal',
+                                                border: InputBorder.none,
+                                              ),
+                                            ),
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.calendar_today,
+                                              size: 20.0,
+                                            ),
+                                            onPressed: () =>
+                                                _selectStartDate(context),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  // End Date
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 8.0, horizontal: 4.0),
+                                    padding: const EdgeInsets.only(left: 10),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SizedBox(
+                                            width:
+                                                75, // Adjust the width according to your preference
+                                            height: 25,
+                                            child: TextFormField(
+                                              readOnly: true,
+                                              controller: TextEditingController(
+                                                text: DateFormat('dd-MM-yyyy')
+                                                    .format(endDate),
+                                              ),
+                                              onTap: () =>
+                                                  _selectEndDate(context),
+                                              style: const TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              decoration: const InputDecoration(
+                                                border: InputBorder.none,
+                                              ),
+                                            ),
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.calendar_today,
+                                              size: 20.0,
+                                            ),
+                                            onPressed: () =>
+                                                _selectEndDate(context),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 40),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Pendapatan',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  _buildDecorationBox(
+                                      double.parse(totalPendapatan)),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Pengeluaran',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    width: 18,
+                                  ),
+                                  _buildDecorationBox(
+                                      double.parse(totalPengeluaran)),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Laba/Rugi',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    width: 33,
+                                  ),
+                                  _buildDecorationBoxLaba(laba),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -339,6 +352,7 @@ class _DataLaporanState extends State<DataLaporan> {
 }
 
 Widget _buildDecorationBox(double value) {
+  String formattedValue = 'Rp${value.toStringAsFixed(3)}';
   return Container(
     width: 150,
     height: 35,
@@ -349,7 +363,7 @@ Widget _buildDecorationBox(double value) {
     ),
     child: Center(
       child: Text(
-        value.toStringAsFixed(3),
+        formattedValue,
         style: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
@@ -359,6 +373,10 @@ Widget _buildDecorationBox(double value) {
 }
 
 Widget _buildDecorationBoxLaba(double value) {
+  String formattedLabaRugi = value < 0
+      ? 'Rp${(-value).toStringAsFixed(3)}'
+      : 'Rp${value.toStringAsFixed(3)}';
+
   Color textColor = Colors.black;
 
   if (value < 0) {
@@ -379,7 +397,7 @@ Widget _buildDecorationBoxLaba(double value) {
     ),
     child: Center(
       child: Text(
-        value.toStringAsFixed(3),
+        formattedLabaRugi,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           color: textColor,

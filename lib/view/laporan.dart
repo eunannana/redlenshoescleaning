@@ -13,7 +13,6 @@ class Laporan extends StatefulWidget {
 
 class _LaporanState extends State<Laporan> {
   int _selectedIndex = 0;
-  // String _searchQuery = '';
 
   final List<Widget> _pages = [
     const DataLaporan(),
@@ -27,12 +26,6 @@ class _LaporanState extends State<Laporan> {
       _selectedIndex = index;
     });
   }
-
-  // void _updateSearchQuery(String query) {
-  //   setState(() {
-  //     _searchQuery = query;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

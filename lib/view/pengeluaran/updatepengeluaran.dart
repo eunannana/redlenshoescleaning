@@ -122,13 +122,21 @@ class _UpdatePengeluaranState extends State<UpdatePengeluaran> {
           ),
         ),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
+      body: SafeArea(
+        child: Container(
+          width: 450,
+          height: 1000,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/image/LoginPage.png'),
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+          child: Center(
+            // Wrap the Container with Center
             child: Container(
               width: 350,
-              height: 520,
+              height: 490,
               decoration: BoxDecoration(
                 color: const Color(0xff8fd5a6),
                 borderRadius: BorderRadius.circular(20),

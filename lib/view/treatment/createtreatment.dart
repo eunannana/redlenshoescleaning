@@ -44,13 +44,21 @@ class _CreateTreatmentState extends State<CreateTreatment> {
           ),
         ),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
+      body: SafeArea(
+        child: Container(
+          width: 450,
+          height: 1000,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/image/LoginPage.png'),
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+          child: Center(
+            // Wrap the Container with Center
             child: Container(
               width: 350,
-              height: 400,
+              height: 380,
               decoration: BoxDecoration(
                 color: const Color(0xff8fd5a6),
                 borderRadius: BorderRadius.circular(20),
@@ -61,6 +69,7 @@ class _CreateTreatmentState extends State<CreateTreatment> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      const SizedBox(height: 20),
                       const Padding(
                         padding: EdgeInsets.symmetric(
                           vertical: 10.0,
@@ -207,6 +216,7 @@ class _CreateTreatmentState extends State<CreateTreatment> {
                           ),
                         ),
                       ),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
