@@ -90,43 +90,49 @@ class PendapatanController {
     await pendapatanCollection.doc(pendapatanID).delete();
   }
 
-  Future<List<DocumentSnapshot>> getPendapatan() async {
-    try {
-      final pendapatan = await pendapatanCollection
-          .where('deletedAt', isEqualTo: 0)
-          .orderBy('tglMasuk', descending: true)
-          // .limit(7)
-          .get();
-
-      pendapatan.docs.forEach((doc) {
-        final pendapatanModel =
-            PendapatanModel.fromMap(doc.data() as Map<String, dynamic>);
-        print('tglMasuk: ${pendapatanModel.tglMasuk}');
-      });
-
-      // Convert the data to DateTime for sorting
-      final sortedData = pendapatan.docs.map((doc) {
-        final pendapatanModel =
-            PendapatanModel.fromMap(doc.data() as Map<String, dynamic>);
-        final tglMasuk =
-            DateFormat("dd-MM-yyyy").parse(pendapatanModel.tglMasuk);
-        return {'doc': doc, 'tglMasuk': tglMasuk};
-      }).toList();
-
-      // Sort the data by tglMasuk in descending order
-      sortedData.sort((a, b) =>
-          (b['tglMasuk'] as Comparable).compareTo(a['tglMasuk'] as Comparable));
-
-      // Update the stream with the sorted data
-      streamController.sink.add(
-          sortedData.map((item) => (item['doc'] as DocumentSnapshot)).toList());
-
-      return pendapatan.docs;
-    } catch (e) {
-      print('Error while getting pendapatan: $e');
-      return [];
-    }
+  Future getPendapatan() async {
+    final pendapatan = await pendapatanCollection.get();
+    streamController.sink.add(pendapatan.docs);
+    return pendapatan.docs;
   }
+
+  // Future<List<DocumentSnapshot>> getPendapatan() async {
+  //   try {
+  //     final pendapatan = await pendapatanCollection
+  //         .where('deletedAt', isEqualTo: 0)
+  //         .orderBy('tglMasuk', descending: true)
+  //         // .limit(7)
+  //         .get();
+
+  //     pendapatan.docs.forEach((doc) {
+  //       final pendapatanModel =
+  //           PendapatanModel.fromMap(doc.data() as Map<String, dynamic>);
+  //       print('tglMasuk: ${pendapatanModel.tglMasuk}');
+  //     });
+
+  //     // Convert the data to DateTime for sorting
+  //     final sortedData = pendapatan.docs.map((doc) {
+  //       final pendapatanModel =
+  //           PendapatanModel.fromMap(doc.data() as Map<String, dynamic>);
+  //       final tglMasuk =
+  //           DateFormat("dd-MM-yyyy").parse(pendapatanModel.tglMasuk);
+  //       return {'doc': doc, 'tglMasuk': tglMasuk};
+  //     }).toList();
+
+  //     // Sort the data by tglMasuk in descending order
+  //     sortedData.sort((a, b) =>
+  //         (b['tglMasuk'] as Comparable).compareTo(a['tglMasuk'] as Comparable));
+
+  //     // Update the stream with the sorted data
+  //     streamController.sink.add(
+  //         sortedData.map((item) => (item['doc'] as DocumentSnapshot)).toList());
+
+  //     return pendapatan.docs;
+  //   } catch (e) {
+  //     print('Error while getting pendapatan: $e');
+  //     return [];
+  //   }
+  // }
 
   Future<String> getTotalPendapatan() async {
     try {

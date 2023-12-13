@@ -39,6 +39,7 @@ class _UpdatePengeluaranState extends State<UpdatePengeluaran> {
   String? newtanggal;
 
   final TextEditingController _tanggalController = TextEditingController();
+  final TextEditingController _hargaController = TextEditingController();
 
   Future<void> _showConfirmationDialog(BuildContext context) async {
     return showDialog<void>(
@@ -105,6 +106,7 @@ class _UpdatePengeluaranState extends State<UpdatePengeluaran> {
   void initState() {
     super.initState();
     _tanggalController.text = widget.tanggal!;
+    _hargaController.text = widget.harga!;
   }
 
   @override
@@ -262,6 +264,7 @@ class _UpdatePengeluaranState extends State<UpdatePengeluaran> {
                       Container(
                         width: 300,
                         child: TextFormField(
+                          controller: _hargaController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
@@ -278,15 +281,36 @@ class _UpdatePengeluaranState extends State<UpdatePengeluaran> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Harga barang tidak boleh kosong!';
-                            } else if (!RegExp(r'^\d+$').hasMatch(value)) {
+                            } else if (!RegExp(r'^\d+(\.\d+)?$')
+                                .hasMatch(value)) {
                               return 'Harga harus berisi angka saja.';
                             }
                             return null;
                           },
-                          onSaved: (value) {
-                            newharga = value;
+                          onChanged: (value) {
+                            final numberFormat = NumberFormat("#,##0", "id_ID");
+                            final newValue = value.replaceAll(",", "");
+
+                            if (newValue.isNotEmpty) {
+                              final formattedHarga =
+                                  numberFormat.format(int.parse(newValue));
+
+                              setState(() {
+                                newharga = formattedHarga;
+                              });
+
+                              _hargaController.value =
+                                  _hargaController.value.copyWith(
+                                text: formattedHarga,
+                                selection: TextSelection.collapsed(
+                                    offset: formattedHarga.length),
+                              );
+                            } else {
+                              setState(() {
+                                newharga = null;
+                              });
+                            }
                           },
-                          initialValue: widget.harga,
                         ),
                       ),
                       const SizedBox(height: 40),

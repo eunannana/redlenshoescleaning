@@ -23,6 +23,15 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
   DateTime? updatedAt;
   DateTime? deletedAt;
 
+  TextEditingController hargaController =
+      TextEditingController(); // Add this line
+
+  @override
+  void dispose() {
+    hargaController.dispose();
+    super.dispose();
+  }
+
   final TextEditingController _tanggalController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -175,6 +184,7 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
                       Container(
                         width: 300,
                         child: TextFormField(
+                          controller: hargaController,
                           decoration: InputDecoration(
                             hintText: 'Harga Barang',
                             border: OutlineInputBorder(
@@ -192,13 +202,35 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Harga tidak boleh kosong!';
-                            } else if (!RegExp(r'^\d+$').hasMatch(value)) {
+                            } else if (!RegExp(r'^\d+(\.\d+)?$')
+                                .hasMatch(value)) {
                               return 'Harga harus berisi angka saja.';
                             }
                             return null;
                           },
                           onChanged: (value) {
-                            harga = value;
+                            final numberFormat = NumberFormat("#,##0", "id_ID");
+                            final newValue = value.replaceAll(",", "");
+
+                            if (newValue.isNotEmpty) {
+                              final formattedHarga =
+                                  numberFormat.format(int.parse(newValue));
+
+                              setState(() {
+                                harga = formattedHarga;
+                              });
+
+                              hargaController.value =
+                                  hargaController.value.copyWith(
+                                text: formattedHarga,
+                                selection: TextSelection.collapsed(
+                                    offset: formattedHarga.length),
+                              );
+                            } else {
+                              setState(() {
+                                harga = null;
+                              });
+                            }
                           },
                         ),
                       ),
