@@ -306,7 +306,7 @@ class _DataLaporanState extends State<DataLaporan> {
                                 const SizedBox(
                                   width: 33,
                                 ),
-                                _buildDecorationBox(laba),
+                                _buildDecorationBoxLaba(laba),
                               ],
                             ),
                           ],
@@ -352,6 +352,37 @@ Widget _buildDecorationBox(double value) {
         value.toStringAsFixed(3),
         style: const TextStyle(
           fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _buildDecorationBoxLaba(double value) {
+  Color textColor = Colors.black;
+
+  if (value < 0) {
+    // Jika nilai di bawah 0, set teks berwarna merah
+    textColor = Colors.red;
+  } else if (value > 0) {
+    // Jika nilai di atas 0, set teks berwarna hijau
+    textColor = Colors.green;
+  }
+
+  return Container(
+    width: 150,
+    height: 35,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border.all(),
+      borderRadius: BorderRadius.circular(5),
+    ),
+    child: Center(
+      child: Text(
+        value.toStringAsFixed(3),
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: textColor,
         ),
       ),
     ),
