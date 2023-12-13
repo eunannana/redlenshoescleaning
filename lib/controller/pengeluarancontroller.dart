@@ -123,7 +123,9 @@ class PengeluaranController {
   Future<String> getTotalPengeluaran() async {
     try {
       final pengeluaran =
-          await pengeluaranCollection.where('deletedAt', isEqualTo: 0).get();
+          await pengeluaranCollection
+          //.where('deletedAt', isEqualTo: 0)
+          .get();
       double total = 0;
       pengeluaran.docs.forEach((doc) {
         PengeluaranModel pengeluaranModel =
@@ -131,7 +133,7 @@ class PengeluaranController {
         double harga = double.tryParse(pengeluaranModel.harga) ?? 0;
         total += harga;
       });
-      return total.toStringAsFixed(2);
+      return total.toStringAsFixed(3);
     } catch (e) {
       print('Error while getting total pengeluaran: $e');
       return '0';

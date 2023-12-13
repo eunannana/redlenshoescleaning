@@ -349,7 +349,7 @@ Widget _buildDecorationBox(double value) {
     ),
     child: Center(
       child: Text(
-        value.toStringAsFixed(2),
+        value.toStringAsFixed(3),
         style: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
