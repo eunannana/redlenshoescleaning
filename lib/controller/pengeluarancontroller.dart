@@ -122,8 +122,7 @@ class PengeluaranController {
 
   Future<String> getTotalPengeluaran() async {
     try {
-      final pengeluaran =
-          await pengeluaranCollection
+      final pengeluaran = await pengeluaranCollection
           //.where('deletedAt', isEqualTo: 0)
           .get();
       double total = 0;
@@ -144,8 +143,9 @@ class PengeluaranController {
     DateTime startDate,
     DateTime endDate,
   ) async {
-    final pengeluaran =
-        await pengeluaranCollection.where('deletedAt', isEqualTo: 0).get();
+    final pengeluaran = await pengeluaranCollection
+        // .where('deletedAt', isEqualTo: 0)
+        .get();
     final filteredPengeluaran = <PengeluaranModel>[];
 
     pengeluaran.docs.forEach((doc) {
@@ -156,6 +156,9 @@ class PengeluaranController {
 
       // Filter data berdasarkan tanggal
       if (parsedDate.isAfter(startDate) && parsedDate.isBefore(endDate)) {
+        filteredPengeluaran.add(pengeluaranModel);
+      } else if (parsedDate.isAtSameMomentAs(startDate) ||
+          parsedDate.isAtSameMomentAs(endDate)) {
         filteredPengeluaran.add(pengeluaranModel);
       }
     });

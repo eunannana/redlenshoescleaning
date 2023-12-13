@@ -136,8 +136,7 @@ class PendapatanController {
 
   Future<String> getTotalPendapatan() async {
     try {
-      final pendapatan =
-          await pendapatanCollection
+      final pendapatan = await pendapatanCollection
           //.where('deletedAt', isEqualTo: 0)
           .get();
       double total = 0;
@@ -157,8 +156,9 @@ class PendapatanController {
 
   Future<List<PendapatanModel>> getPendapatanByDate(
       DateTime startDate, DateTime endDate) async {
-    final pendapatan =
-        await pendapatanCollection.where('deletedAt', isEqualTo: 0).get();
+    final pendapatan = await pendapatanCollection
+        // .where('deletedAt', isEqualTo: 0)
+        .get();
     final filteredPendapatan = <PendapatanModel>[];
 
     pendapatan.docs.forEach((doc) {
@@ -167,6 +167,9 @@ class PendapatanController {
       final tglMasuk = DateFormat("dd-MM-yyyy").parse(pendapatanModel.tglMasuk);
 
       if (tglMasuk.isAfter(startDate) && tglMasuk.isBefore(endDate)) {
+        filteredPendapatan.add(pendapatanModel);
+      } else if (tglMasuk.isAtSameMomentAs(startDate) ||
+          tglMasuk.isAtSameMomentAs(endDate)) {
         filteredPendapatan.add(pendapatanModel);
       }
     });
