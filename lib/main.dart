@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:redlenshoescleaning/view/laporan.dart';
 import 'package:redlenshoescleaning/view/splashscreen.dart';
 
 Future main() async {
@@ -16,7 +15,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Laporan(),
+      home: SplashScreen(),
     );
   }
 }
