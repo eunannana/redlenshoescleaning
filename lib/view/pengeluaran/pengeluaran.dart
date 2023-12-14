@@ -32,18 +32,53 @@ class _PengeluaranState extends State<Pengeluaran> {
         automaticallyImplyLeading: false,
         backgroundColor: const Color(0xFF0C8346),
         centerTitle: true,
-        title: Text(
-          'Daftar Pengeluaran',
-          style: GoogleFonts.inter(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: isSearching
+            ? Container(
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                width: 350,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  decoration: const InputDecoration(
+                    hintText: 'Cari pengeluaran...',
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(vertical: 15),
+                  ),
+                  onChanged: (newKeyword) {
+                    setState(() {
+                      keyword = newKeyword;
+                    });
+                  },
+                ),
+              )
+            : Text(
+                'Daftar Pengeluaran',
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.search),
+            icon: const Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
             onPressed: () {
               setState(() {
-                isSearching = !isSearching; // Toggle kotak pencarian
+                isSearching = !isSearching;
               });
             },
           ),
@@ -59,36 +94,6 @@ class _PengeluaranState extends State<Pengeluaran> {
           ),
           child: Column(
             children: [
-              if (isSearching)
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      hintText: 'Cari Pengeluaran...',
-                      border: InputBorder.none,
-                      suffixIcon: Icon(Icons.search, color: Colors.grey),
-                      contentPadding: EdgeInsets.symmetric(vertical: 15),
-                    ),
-                    onChanged: (newKeyword) {
-                      setState(() {
-                        keyword = newKeyword;
-                      });
-                    },
-                  ),
-                ),
               Expanded(
                 child: StreamBuilder<List<DocumentSnapshot>>(
                   stream: pc.stream,

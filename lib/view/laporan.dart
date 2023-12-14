@@ -36,7 +36,7 @@ class _LaporanState extends State<Laporan> {
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(25.0)),
         child: SizedBox(
-          height: 90,
+          height: 80,
           child: BottomNavigationBar(
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.black,

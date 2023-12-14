@@ -14,6 +14,8 @@ class Treatment extends StatefulWidget {
 
 class _TreatmentState extends State<Treatment> {
   var tc = TreatmentController();
+  String keyword = "";
+  bool isSearching = false;
 
   @override
   void initState() {
@@ -28,12 +30,57 @@ class _TreatmentState extends State<Treatment> {
         automaticallyImplyLeading: false,
         backgroundColor: const Color(0xFF0C8346),
         centerTitle: true,
-        title: Text(
-          'Daftar Treatment',
-          style: GoogleFonts.inter(
-            fontWeight: FontWeight.bold,
+        title: isSearching
+            ? Container(
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                width: 350,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  decoration: const InputDecoration(
+                    hintText: 'Cari treatment...',
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(vertical: 15),
+                  ),
+                  onChanged: (newKeyword) {
+                    setState(() {
+                      keyword = newKeyword;
+                    });
+                  },
+                ),
+              )
+            : Text(
+                'Daftar Treatment',
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {
+                isSearching = !isSearching;
+              });
+            },
           ),
-        ),
+        ],
       ),
       body: SafeArea(
         child: Container(
@@ -56,8 +103,20 @@ class _TreatmentState extends State<Treatment> {
                     }
                     final List<DocumentSnapshot> data = snapshot.data!;
 
+                    // Implementasi logika pencarian
+                    List<DocumentSnapshot> filteredDocuments =
+                        data.where((document) {
+                      Map<String, dynamic> treatment =
+                          document.data() as Map<String, dynamic>;
+                      String searchField = treatment['treatment'] +
+                          treatment['hargatreatment'].toString();
+                      return searchField
+                          .toLowerCase()
+                          .contains(keyword.toLowerCase());
+                    }).toList();
+
                     return ListView.builder(
-                      itemCount: data.length,
+                      itemCount: filteredDocuments.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(
@@ -68,9 +127,10 @@ class _TreatmentState extends State<Treatment> {
                             color: const Color(0xff8fd5a6),
                             elevation: 4,
                             child: ListTile(
-                              title: Text(data[index]['treatment']),
-                              subtitle:
-                                  Text('Rp${data[index]['hargaTreatment']}'),
+                              title:
+                                  Text(filteredDocuments[index]['treatment']),
+                              subtitle: Text(
+                                  'Rp${filteredDocuments[index]['hargaTreatment']}'),
                               trailing: PopupMenuButton(
                                 itemBuilder: (context) {
                                   return [
@@ -90,11 +150,13 @@ class _TreatmentState extends State<Treatment> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => UpdateTreatment(
-                                          treatmentID: data[index]
+                                          treatmentID: filteredDocuments[index]
                                               ['treatmentID'],
-                                          treatment: data[index]['treatment'],
-                                          hargaTreatment: data[index]
-                                              ['hargaTreatment'],
+                                          treatment: filteredDocuments[index]
+                                              ['treatment'],
+                                          hargaTreatment:
+                                              filteredDocuments[index]
+                                                  ['hargaTreatment'],
                                         ),
                                       ),
                                     ).then((value) {
@@ -132,9 +194,10 @@ class _TreatmentState extends State<Treatment> {
                                                     color: Colors.blue),
                                               ),
                                               onPressed: () {
-                                                tc.removeTreatment(data[index]
-                                                        ['treatmentID']
-                                                    .toString());
+                                                tc.removeTreatment(
+                                                    filteredDocuments[index]
+                                                            ['treatmentID']
+                                                        .toString());
                                                 setState(() {
                                                   tc.getTreatment();
                                                 });

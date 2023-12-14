@@ -212,7 +212,7 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Harga tidak boleh kosong!';
-                            } else if (!RegExp(r'^\d+(\.\d+)?$')
+                            } else if (!RegExp(r'^\d{1,3}(.\d{3})*(\.\d+)?$')
                                 .hasMatch(value)) {
                               return 'Harga harus berisi angka saja.';
                             }

@@ -19,6 +19,8 @@ class _DataLaporanState extends State<DataLaporan> {
   final AuthController authController = AuthController();
   final PendapatanController pendapatanController = PendapatanController();
   final PengeluaranController pengeluaranController = PengeluaranController();
+  final TextEditingController _tglDariController = TextEditingController();
+  final TextEditingController _tglSampaiController = TextEditingController();
 
   // Add a flag to check if it's the first page load
   bool isFirstLoad = true;
@@ -29,32 +31,35 @@ class _DataLaporanState extends State<DataLaporan> {
 
   // Function to show date picker for StartDate
   Future<void> _selectStartDate(BuildContext context) async {
-    final DateTime picked = (await showDatePicker(
+    final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: startDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    ))!;
-    if (picked != startDate) {
+      firstDate: DateTime(2023),
+      lastDate: DateTime(2030),
+    );
+
+    if (picked != null && picked != startDate) {
       setState(() {
         startDate = picked;
         isFirstLoad = false;
+        _tglDariController.text = DateFormat('dd-MM-yyyy').format(startDate!);
       });
     }
   }
 
   // Function to show date picker for EndDate
   Future<void> _selectEndDate(BuildContext context) async {
-    final DateTime picked = (await showDatePicker(
+    final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: endDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    ))!;
-    if (picked != endDate) {
+      firstDate: DateTime(2023),
+      lastDate: DateTime(2030),
+    );
+    if (picked != null && picked != endDate) {
       setState(() {
         endDate = picked;
         isFirstLoad = false;
+        _tglSampaiController.text = DateFormat('dd-MM-yyyy').format(endDate!);
       });
     }
   }
@@ -183,30 +188,26 @@ class _DataLaporanState extends State<DataLaporan> {
                                       border: Border.all(color: Colors.black),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
-                                    child: Align(
-                                      alignment: Alignment.center,
+                                    child: Center(
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
                                           SizedBox(
                                             width:
-                                                75, // Adjust the width according to your preference
-                                            height: 25,
+                                                80, // Adjust the width according to your preference
+                                            height: 30,
                                             child: TextFormField(
                                               readOnly: true,
-                                              controller: TextEditingController(
-                                                text: DateFormat('dd-MM-yyyy')
-                                                    .format(startDate),
-                                              ),
+                                              controller: _tglDariController,
                                               onTap: () =>
                                                   _selectStartDate(context),
                                               style: const TextStyle(
-                                                fontSize: 13,
+                                                fontSize: 14,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                               decoration: const InputDecoration(
-                                                hintText: 'Masukkan tanggal',
+                                                hintText: 'Pilih tanggal',
                                                 border: InputBorder.none,
                                               ),
                                             ),
@@ -233,29 +234,26 @@ class _DataLaporanState extends State<DataLaporan> {
                                       border: Border.all(color: Colors.black),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
-                                    child: Align(
-                                      alignment: Alignment.center,
+                                    child: Center(
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
                                           SizedBox(
                                             width:
-                                                75, // Adjust the width according to your preference
-                                            height: 25,
+                                                80, // Adjust the width according to your preference
+                                            height: 30,
                                             child: TextFormField(
                                               readOnly: true,
-                                              controller: TextEditingController(
-                                                text: DateFormat('dd-MM-yyyy')
-                                                    .format(endDate),
-                                              ),
+                                              controller: _tglSampaiController,
                                               onTap: () =>
                                                   _selectEndDate(context),
                                               style: const TextStyle(
-                                                fontSize: 13,
+                                                fontSize: 14,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                               decoration: const InputDecoration(
+                                                hintText: 'Pilih tanggal',
                                                 border: InputBorder.none,
                                               ),
                                             ),
@@ -263,7 +261,7 @@ class _DataLaporanState extends State<DataLaporan> {
                                           IconButton(
                                             icon: const Icon(
                                               Icons.calendar_today,
-                                              size: 20.0,
+                                              size: 20,
                                             ),
                                             onPressed: () =>
                                                 _selectEndDate(context),
