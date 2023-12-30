@@ -397,11 +397,7 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
                               return const CircularProgressIndicator();
                             } else {
                               List<DropdownMenuItem<String>> dropdownItems = [];
-                              final items =
-                                  snapshot.data!.docs.where((element) {
-                                return element['deletedAt'] == null ||
-                                    element['deletedAt'] != 0;
-                              }).toList();
+                              final items = snapshot.data!.docs;
 
                               for (var item in items) {
                                 String itemName = item['treatment'];
