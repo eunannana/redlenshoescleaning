@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:redlenshoescleaning/view/laporan.dart';
@@ -176,13 +178,13 @@ class _LoginState extends State<Login> {
                                       borderRadius: BorderRadius.circular(18))),
                           minimumSize: MaterialStateProperty.all<Size>(
                               const Size(280, 50)),
-                          backgroundColor:
-                              MaterialStateProperty.all(Color(0xff329f5b)),
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color(0xff329f5b)),
                           overlayColor:
                               MaterialStateProperty.resolveWith<Color?>(
                                   (Set<MaterialState> states) {
                             if (states.contains(MaterialState.pressed)) {
-                              return Color(
+                              return const Color(
                                   0xFF4CAF50); // Ganti dengan warna overlay saat tombol ditekan
                             }
                             return null;

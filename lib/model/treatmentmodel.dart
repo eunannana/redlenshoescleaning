@@ -40,20 +40,27 @@ class TreatmentModel {
       'treatmentID': treatmentID,
       'treatment': treatment,
       'hargaTreatment': hargaTreatment,
-    'createdAt': createdAt?.millisecondsSinceEpoch,
-    'updatedAt': updatedAt?.millisecondsSinceEpoch,
-    'deletedAt': deletedAt?.millisecondsSinceEpoch,
+      'createdAt': createdAt?.millisecondsSinceEpoch,
+      'updatedAt': updatedAt?.millisecondsSinceEpoch,
+      'deletedAt': deletedAt?.millisecondsSinceEpoch,
     };
   }
 
   factory TreatmentModel.fromMap(Map<String, dynamic> map) {
     return TreatmentModel(
-      treatmentID: map['treatmentID'] != null ? map['treatmentID'] as String : null,
+      treatmentID:
+          map['treatmentID'] != null ? map['treatmentID'] as String : null,
       treatment: map['treatment'] as String,
       hargaTreatment: map['hargaTreatment'] as String,
-      createdAt: map['createdAt'] != null ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int) : null,
-      updatedAt: map['updatedAt'] != null ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int) : null,
-      deletedAt: map['deletedAt'] != null ? DateTime.fromMillisecondsSinceEpoch(map['deletedAt'] as int) : null,
+      createdAt: map['createdAt'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int)
+          : null,
+      updatedAt: map['updatedAt'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int)
+          : null,
+      deletedAt: map['deletedAt'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['deletedAt'] as int)
+          : null,
     );
   }
 
@@ -70,23 +77,22 @@ class TreatmentModel {
   @override
   bool operator ==(covariant TreatmentModel other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.treatmentID == treatmentID &&
-      other.treatment == treatment &&
-      other.hargaTreatment == hargaTreatment &&
-      other.createdAt == createdAt &&
-      other.updatedAt == updatedAt &&
-      other.deletedAt == deletedAt;
+
+    return other.treatmentID == treatmentID &&
+        other.treatment == treatment &&
+        other.hargaTreatment == hargaTreatment &&
+        other.createdAt == createdAt &&
+        other.updatedAt == updatedAt &&
+        other.deletedAt == deletedAt;
   }
 
   @override
   int get hashCode {
     return treatmentID.hashCode ^
-      treatment.hashCode ^
-      hargaTreatment.hashCode ^
-      createdAt.hashCode ^
-      updatedAt.hashCode ^
-      deletedAt.hashCode;
+        treatment.hashCode ^
+        hargaTreatment.hashCode ^
+        createdAt.hashCode ^
+        updatedAt.hashCode ^
+        deletedAt.hashCode;
   }
 }

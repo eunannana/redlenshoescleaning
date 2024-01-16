@@ -507,10 +507,6 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
                                 tglMasuk: tglMasuk!,
                                 tglKeluar: tglKeluar!,
                                 hargaTreatment: hargaTreatment!,
-                                // Adding timestamp fields
-                                createdAt: DateTime.now(),
-                                updatedAt: DateTime.now(),
-                                deletedAt: DateTime.now(),
                               );
                               pendapatanController.addPendapatan(penmodel);
                               ScaffoldMessenger.of(context).showSnackBar(

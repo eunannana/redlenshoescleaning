@@ -105,9 +105,6 @@ class _UpdatePendapatanState extends State<UpdatePendapatan> {
         sepatuCust: newsepatuCust!.toString(),
         hargaTreatment: newhargaTreatment!.toString(),
         treatment: newtreatment!.toString(),
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        deletedAt: DateTime.now(),
       );
       pendapatanController.updatePendapatan(penm);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -616,9 +613,6 @@ class _UpdatePendapatanState extends State<UpdatePendapatan> {
                                   tglMasuk: newtglMasuk!.toString(),
                                   tglKeluar: newtglKeluar!.toString(),
                                   hargaTreatment: newhargaTreatment!.toString(),
-                                  createdAt: DateTime.now(),
-                                  updatedAt: DateTime.now(),
-                                  deletedAt: DateTime.now(),
                                 );
                                 pendapatanController.updatePendapatan(penmodel);
                                 ScaffoldMessenger.of(context).showSnackBar(

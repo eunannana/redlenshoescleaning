@@ -46,38 +46,9 @@ class TreatmentController {
         .update(treatmentModel.toMap());
   }
 
-  // Future<void> removeTreatment(String treatmentID) async {
-  //   try {
-  //     final DocumentReference docRef = treatmentCollection.doc(treatmentID);
-
-  //     final TreatmentModel existingData = TreatmentModel.fromMap(
-  //         (await docRef.get()).data() as Map<String, dynamic>);
-
-  //     final TreatmentModel treatmentModel = TreatmentModel(
-  //       treatment: existingData.treatment,
-  //       hargaTreatment: existingData.hargaTreatment,
-  //       treatmentID: existingData.treatmentID,
-  //       createdAt: existingData.createdAt,
-  //       updatedAt: DateTime.now(),
-  //       deletedAt: DateTime.now(), // Set deletedAt to current date and time
-  //     );
-
-  //     await docRef.update(treatmentModel.toMap());
-  //   } catch (e) {
-  //     print('Error while soft deleting treatment: $e');
-  //   }
-  // }
-
   Future<void> removeTreatment(String treatmentID) async {
     await treatmentCollection.doc(treatmentID).delete();
   }
-
-  // Future getTreatment() async {
-  //   final treatment =
-  //       await treatmentCollection.where('deletedAt', isEqualTo: 0).get();
-  //   streamController.sink.add(treatment.docs);
-  //   return treatment.docs;
-  // }
 
   Future getTreatment() async {
     final treatment = await treatmentCollection.get();

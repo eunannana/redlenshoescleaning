@@ -29,9 +29,6 @@ class PendapatanController {
       tglMasuk: penmodel.tglMasuk,
       tglKeluar: penmodel.tglKeluar,
       hargaTreatment: penmodel.hargaTreatment,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      deletedAt: DateTime.fromMillisecondsSinceEpoch(0),
     );
 
     await docRef.update(pendapatanModel.toMap());
@@ -48,43 +45,12 @@ class PendapatanController {
       tglKeluar: penmodel.tglKeluar,
       hargaTreatment: penmodel.hargaTreatment,
       pendapatanID: penmodel.pendapatanID,
-      createdAt: penmodel.createdAt,
-      updatedAt: DateTime.now(),
-      deletedAt: penmodel.deletedAt,
     );
 
     await pendapatanCollection
         .doc(penmodel.pendapatanID)
         .update(pendapatanModel.toMap());
   }
-
-  // Future<void> removePendapatan(String pendapatanID) async {
-  //   try {
-  //     final DocumentReference docRef = pendapatanCollection.doc(pendapatanID);
-
-  //     final PendapatanModel existingData = PendapatanModel.fromMap(
-  //         (await docRef.get()).data() as Map<String, dynamic>);
-
-  //     final PendapatanModel pendapatanModel = PendapatanModel(
-  //       namaCust: existingData.namaCust,
-  //       telpCust: existingData.telpCust,
-  //       alamatCust: existingData.alamatCust,
-  //       sepatuCust: existingData.sepatuCust,
-  //       treatment: existingData.treatment,
-  //       tglMasuk: existingData.tglMasuk,
-  //       tglKeluar: existingData.tglKeluar,
-  //       hargaTreatment: existingData.hargaTreatment,
-  //       pendapatanID: existingData.pendapatanID,
-  //       createdAt: existingData.createdAt,
-  //       updatedAt: existingData.updatedAt,
-  //       deletedAt: DateTime.now(), // Set deletedAt to current date and time
-  //     );
-
-  //     await docRef.update(pendapatanModel.toMap());
-  //   } catch (e) {
-  //     print('Error while soft deleting pendapatan: $e');
-  //   }
-  // }
 
   Future<void> removePendapatan(String pendapatanID) async {
     await pendapatanCollection.doc(pendapatanID).delete();
@@ -95,44 +61,6 @@ class PendapatanController {
     streamController.sink.add(pendapatan.docs);
     return pendapatan.docs;
   }
-
-  // Future<List<DocumentSnapshot>> getPendapatan() async {
-  //   try {
-  //     final pendapatan = await pendapatanCollection
-  //         .where('deletedAt', isEqualTo: 0)
-  //         .orderBy('tglMasuk', descending: true)
-  //         // .limit(7)
-  //         .get();
-
-  //     pendapatan.docs.forEach((doc) {
-  //       final pendapatanModel =
-  //           PendapatanModel.fromMap(doc.data() as Map<String, dynamic>);
-  //       print('tglMasuk: ${pendapatanModel.tglMasuk}');
-  //     });
-
-  //     // Convert the data to DateTime for sorting
-  //     final sortedData = pendapatan.docs.map((doc) {
-  //       final pendapatanModel =
-  //           PendapatanModel.fromMap(doc.data() as Map<String, dynamic>);
-  //       final tglMasuk =
-  //           DateFormat("dd-MM-yyyy").parse(pendapatanModel.tglMasuk);
-  //       return {'doc': doc, 'tglMasuk': tglMasuk};
-  //     }).toList();
-
-  //     // Sort the data by tglMasuk in descending order
-  //     sortedData.sort((a, b) =>
-  //         (b['tglMasuk'] as Comparable).compareTo(a['tglMasuk'] as Comparable));
-
-  //     // Update the stream with the sorted data
-  //     streamController.sink.add(
-  //         sortedData.map((item) => (item['doc'] as DocumentSnapshot)).toList());
-
-  //     return pendapatan.docs;
-  //   } catch (e) {
-  //     print('Error while getting pendapatan: $e');
-  //     return [];
-  //   }
-  // }
 
   Future<String> getTotalPendapatan() async {
     try {

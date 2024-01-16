@@ -17,11 +17,18 @@ class _PendapatanState extends State<Pendapatan> {
   var penc = PendapatanController();
   String keyword = "";
   bool isSearching = false;
+  List<Map<String, dynamic>> filteredDocuments = [];
 
   @override
   void initState() {
     penc.getPendapatan();
     super.initState();
+    // Sort the list by 'tglMasuk' in descending order
+    filteredDocuments.sort((a, b) {
+      final dateA = DateTime.parse(a['tglMasuk']);
+      final dateB = DateTime.parse(b['tglMasuk']);
+      return dateB.compareTo(dateA);
+    });
   }
 
   @override
