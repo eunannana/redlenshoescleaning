@@ -80,7 +80,6 @@ class _UpdateTreatmentState extends State<UpdateTreatment> {
         treatmentID: widget.treatmentID,
         treatment: newTreatment,
         hargaTreatment: newHargaTreatment,
-        // updatedAt: DateTime.now(),
       );
       treatmentController.updateTreatment(tm);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -124,151 +123,154 @@ class _UpdateTreatmentState extends State<UpdateTreatment> {
             ),
           ),
           child: Center(
-            // Wrap the Container with Center
-            child: Container(
-              width: 350,
-              height: 380,
-              decoration: BoxDecoration(
-                color: const Color(0xff8fd5a6),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Form(
-                key: _formkey,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10.0,
-                          horizontal: 30.0,
+            child: SingleChildScrollView(
+              // Wrap the Container with Center
+              child: Container(
+                width: 350,
+                height: 380,
+                decoration: BoxDecoration(
+                  color: const Color(0xff8fd5a6),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Form(
+                  key: _formkey,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 30.0,
+                          ),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Jenis Treatment',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
                         ),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Jenis Treatment',
+                        Container(
+                          width: 300,
+                          child: TextFormField(
+                            controller: _treatmentController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              filled: true,
+                              fillColor: Colors.white,
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Jenis treatment tidak boleh kosong!';
+                              } else if (value.length > 20) {
+                                return 'Jenis Treatment maksimal 20 karakter!';
+                              } else if (!RegExp(r'^[a-zA-Z\s]+$')
+                                  .hasMatch(value)) {
+                                return 'Jenis Treatment harus berisi huruf alphabet saja.';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 30.0,
+                          ),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Harga',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 300,
+                          child: TextFormField(
+                            controller: _hargaTreatmentController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              filled: true,
+                              fillColor: Colors.white,
+                            ),
+                            keyboardType: TextInputType
+                                .number, // Set the keyboard type to number
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter
+                                  .digitsOnly // Allow only digits
+                            ],
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Harga tidak boleh kosong!';
+                              } else if (!RegExp(r'^\d{1,3}(.\d{3})*(\.\d+)?$')
+                                  .hasMatch(value)) {
+                                return 'Harga harus berisi angka saja.';
+                              }
+                              return null;
+                            },
+                            onChanged: (value) {
+                              final numberFormat =
+                                  NumberFormat("#,##0", "id_ID");
+                              final newValue = value.replaceAll(",", "");
+
+                              if (newValue.isNotEmpty) {
+                                final formattedHarga =
+                                    numberFormat.format(int.parse(newValue));
+
+                                setState(() {
+                                  newhargaTreatment = formattedHarga;
+                                });
+
+                                _hargaTreatmentController.value =
+                                    _hargaTreatmentController.value.copyWith(
+                                  text: formattedHarga,
+                                  selection: TextSelection.collapsed(
+                                      offset: formattedHarga.length),
+                                );
+                              } else {
+                                setState(() {
+                                  newhargaTreatment = null;
+                                });
+                              }
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                        ElevatedButton(
+                          onPressed: () {
+                            _showConfirmationDialog(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xff329f5b),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            minimumSize: const Size(150, 50),
+                          ),
+                          child: const Text(
+                            'Simpan',
                             style: TextStyle(
                               fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
-                            textAlign: TextAlign.start,
                           ),
                         ),
-                      ),
-                      Container(
-                        width: 300,
-                        child: TextFormField(
-                          controller: _treatmentController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Jenis treatment tidak boleh kosong!';
-                            } else if (value.length > 20) {
-                              return 'Jenis Treatment maksimal 20 karakter!';
-                            } else if (!RegExp(r'^[a-zA-Z\s]+$')
-                                .hasMatch(value)) {
-                              return 'Jenis Treatment harus berisi huruf alphabet saja.';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10.0,
-                          horizontal: 30.0,
-                        ),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Harga',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.start,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 300,
-                        child: TextFormField(
-                          controller: _hargaTreatmentController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
-                          ),
-                          keyboardType: TextInputType
-                              .number, // Set the keyboard type to number
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter
-                                .digitsOnly // Allow only digits
-                          ],
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Harga tidak boleh kosong!';
-                            } else if (!RegExp(r'^\d{1,3}(.\d{3})*(\.\d+)?$')
-                                .hasMatch(value)) {
-                              return 'Harga harus berisi angka saja.';
-                            }
-                            return null;
-                          },
-                          onChanged: (value) {
-                            final numberFormat = NumberFormat("#,##0", "id_ID");
-                            final newValue = value.replaceAll(",", "");
-
-                            if (newValue.isNotEmpty) {
-                              final formattedHarga =
-                                  numberFormat.format(int.parse(newValue));
-
-                              setState(() {
-                                newhargaTreatment = formattedHarga;
-                              });
-
-                              _hargaTreatmentController.value =
-                                  _hargaTreatmentController.value.copyWith(
-                                text: formattedHarga,
-                                selection: TextSelection.collapsed(
-                                    offset: formattedHarga.length),
-                              );
-                            } else {
-                              setState(() {
-                                newhargaTreatment = null;
-                              });
-                            }
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 40),
-                      ElevatedButton(
-                        onPressed: () {
-                          _showConfirmationDialog(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff329f5b),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          minimumSize: const Size(150, 50),
-                        ),
-                        child: const Text(
-                          'Simpan',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

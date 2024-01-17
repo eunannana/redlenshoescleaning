@@ -25,9 +25,6 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
   String? sepatuCust;
   String? hargaTreatment;
   String? treatment;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  DateTime? deletedAt;
 
   final TextEditingController hargaController = TextEditingController();
   final TextEditingController _tglMasukController = TextEditingController();

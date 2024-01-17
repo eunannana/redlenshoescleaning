@@ -26,9 +26,6 @@ class PengeluaranController {
       harga: pmodel.harga,
       keterangan: pmodel.keterangan,
       tanggal: pmodel.tanggal,
-      // createdAt: DateTime.now(),
-      // updatedAt: DateTime.now(),
-      // deletedAt: DateTime.fromMillisecondsSinceEpoch(0),
     );
 
     await docRef.update(pengeluaranModel.toMap());
@@ -40,9 +37,6 @@ class PengeluaranController {
       keterangan: pmodel.keterangan,
       harga: pmodel.harga,
       tanggal: pmodel.tanggal,
-      // createdAt: pmodel.createdAt,
-      // updatedAt: DateTime.now(),
-      // deletedAt: pmodel.deletedAt,
     );
 
     await pengeluaranCollection
@@ -58,6 +52,20 @@ class PengeluaranController {
     final pengeluaran = await pengeluaranCollection.get();
     streamController.sink.add(pengeluaran.docs);
     return pengeluaran.docs;
+  }
+
+  Future<List<DocumentSnapshot>> getPengeluaranSortedByDate() async {
+    final pengeluaran = await pengeluaranCollection.get();
+    List<DocumentSnapshot> pengeluaranDocs = pengeluaran.docs;
+
+    pengeluaranDocs.sort((a, b) {
+      DateTime dateA = DateFormat('dd-MM-yyyy').parse(a['tanggal']);
+      DateTime dateB = DateFormat('dd-MM-yyyy').parse(b['tanggal']);
+      return dateB.compareTo(dateA); // Sort in descending order (latest first)
+    });
+
+    streamController.sink.add(pengeluaranDocs);
+    return pengeluaranDocs;
   }
 
   Future<String> getTotalPengeluaran() async {

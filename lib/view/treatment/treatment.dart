@@ -19,8 +19,8 @@ class _TreatmentState extends State<Treatment> {
 
   @override
   void initState() {
-    tc.getTreatment();
     super.initState();
+    tc.getTreatment();
   }
 
   @override

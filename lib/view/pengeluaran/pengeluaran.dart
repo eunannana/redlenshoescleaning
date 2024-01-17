@@ -21,8 +21,8 @@ class _PengeluaranState extends State<Pengeluaran> {
 
   @override
   void initState() {
-    pc.getPengeluaran();
     super.initState();
+    pc.getPengeluaranSortedByDate();
   }
 
   @override

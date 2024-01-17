@@ -62,6 +62,20 @@ class PendapatanController {
     return pendapatan.docs;
   }
 
+  Future<List<DocumentSnapshot>> getPendapatanSortedByDate() async {
+    final pendapatan = await pendapatanCollection.get();
+    List<DocumentSnapshot> pendapatanDocs = pendapatan.docs;
+
+    pendapatanDocs.sort((a, b) {
+      DateTime dateA = DateFormat('dd-MM-yyyy').parse(a['tglMasuk']);
+      DateTime dateB = DateFormat('dd-MM-yyyy').parse(b['tglMasuk']);
+      return dateB.compareTo(dateA); // Sort in descending order (latest first)
+    });
+
+    streamController.sink.add(pendapatanDocs);
+    return pendapatanDocs;
+  }
+
   Future<String> getTotalPendapatan() async {
     try {
       final pendapatan = await pendapatanCollection
