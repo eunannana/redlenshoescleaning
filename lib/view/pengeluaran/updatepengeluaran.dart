@@ -13,18 +13,18 @@ class UpdatePengeluaran extends StatefulWidget {
     this.keterangan,
     this.harga,
     this.tanggal,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
+    // this.createdAt,
+    // this.updatedAt,
+    // this.deletedAt,
   }) : super(key: key);
 
   final String? pengeluaranId;
   final String? keterangan;
   final String? harga;
   final String? tanggal;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final DateTime? deletedAt;
+  // final DateTime? createdAt;
+  // final DateTime? updatedAt;
+  // final DateTime? deletedAt;
 
   @override
   State<UpdatePengeluaran> createState() => _UpdatePengeluaranState();
@@ -83,9 +83,9 @@ class _UpdatePengeluaranState extends State<UpdatePengeluaran> {
         keterangan: newketerangan!.toString(),
         harga: newharga!.toString(),
         tanggal: newtanggal!.toString(),
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        deletedAt: DateTime.now(),
+        // createdAt: DateTime.now(),
+        // updatedAt: DateTime.now(),
+        // deletedAt: DateTime.now(),
       );
       pengeluaranController.updatePengeluaran(pm);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -355,9 +355,9 @@ class _UpdatePengeluaranState extends State<UpdatePengeluaran> {
                                           tanggal: newtanggal!.toString(),
                                           keterangan: newketerangan!.toString(),
                                           harga: newharga!.toString(),
-                                          createdAt: DateTime.now(),
-                                          updatedAt: DateTime.now(),
-                                          deletedAt: DateTime.now(),
+                                          // createdAt: DateTime.now(),
+                                          // updatedAt: DateTime.now(),
+                                          // deletedAt: DateTime.now(),
                                         );
                                         pengeluaranController
                                             .updatePengeluaran(pm);

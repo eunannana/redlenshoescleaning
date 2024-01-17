@@ -23,9 +23,9 @@ class TreatmentController {
       treatmentID: docID,
       treatment: tmodel.treatment,
       hargaTreatment: tmodel.hargaTreatment,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      deletedAt: DateTime.fromMillisecondsSinceEpoch(0),
+      // createdAt: DateTime.now(),
+      // updatedAt: DateTime.now(),
+      // deletedAt: DateTime.fromMillisecondsSinceEpoch(0),
     );
 
     await docRef.update(treatmentModel.toMap());
@@ -36,9 +36,9 @@ class TreatmentController {
       treatment: tmodel.treatment,
       hargaTreatment: tmodel.hargaTreatment,
       treatmentID: tmodel.treatmentID,
-      createdAt: tmodel.createdAt,
-      updatedAt: DateTime.now(),
-      deletedAt: tmodel.deletedAt,
+      // createdAt: tmodel.createdAt,
+      // updatedAt: DateTime.now(),
+      // deletedAt: tmodel.deletedAt,
     );
 
     await treatmentCollection

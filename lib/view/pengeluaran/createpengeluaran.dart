@@ -19,9 +19,9 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
   String? keterangan;
   String? harga;
   String? tanggal;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  DateTime? deletedAt;
+  // DateTime? createdAt;
+  // DateTime? updatedAt;
+  // DateTime? deletedAt;
 
   TextEditingController hargaController =
       TextEditingController(); // Add this line
@@ -252,9 +252,9 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
                               tanggal: tanggal!,
                               keterangan: keterangan!,
                               harga: harga!,
-                              createdAt: DateTime.now(),
-                              updatedAt: DateTime.now(),
-                              deletedAt: DateTime.now(),
+                              // createdAt: DateTime.now(),
+                              // updatedAt: DateTime.now(),
+                              // deletedAt: DateTime.now(),
                             );
                             pengeluaranController.addPengeluaran(pm);
                             ScaffoldMessenger.of(context).showSnackBar(

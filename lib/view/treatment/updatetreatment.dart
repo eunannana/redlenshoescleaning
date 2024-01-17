@@ -80,7 +80,7 @@ class _UpdateTreatmentState extends State<UpdateTreatment> {
         treatmentID: widget.treatmentID,
         treatment: newTreatment,
         hargaTreatment: newHargaTreatment,
-        updatedAt: DateTime.now(),
+        // updatedAt: DateTime.now(),
       );
       treatmentController.updateTreatment(tm);
       ScaffoldMessenger.of(context).showSnackBar(

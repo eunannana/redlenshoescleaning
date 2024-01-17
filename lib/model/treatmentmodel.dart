@@ -5,33 +5,33 @@ class TreatmentModel {
   String? treatmentID;
   final String treatment;
   final String hargaTreatment;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  DateTime? deletedAt;
+  // DateTime? createdAt;
+  // DateTime? updatedAt;
+  // DateTime? deletedAt;
   TreatmentModel({
     this.treatmentID,
     required this.treatment,
     required this.hargaTreatment,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
+    // this.createdAt,
+    // this.updatedAt,
+    // this.deletedAt,
   });
 
   TreatmentModel copyWith({
     String? treatmentID,
     String? treatment,
     String? hargaTreatment,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    DateTime? deletedAt,
+    // DateTime? createdAt,
+    // DateTime? updatedAt,
+    // DateTime? deletedAt,
   }) {
     return TreatmentModel(
       treatmentID: treatmentID ?? this.treatmentID,
       treatment: treatment ?? this.treatment,
       hargaTreatment: hargaTreatment ?? this.hargaTreatment,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-      deletedAt: deletedAt ?? this.deletedAt,
+      // createdAt: createdAt ?? this.createdAt,
+      // updatedAt: updatedAt ?? this.updatedAt,
+      // deletedAt: deletedAt ?? this.deletedAt,
     );
   }
 
@@ -40,9 +40,9 @@ class TreatmentModel {
       'treatmentID': treatmentID,
       'treatment': treatment,
       'hargaTreatment': hargaTreatment,
-      'createdAt': createdAt?.millisecondsSinceEpoch,
-      'updatedAt': updatedAt?.millisecondsSinceEpoch,
-      'deletedAt': deletedAt?.millisecondsSinceEpoch,
+      // 'createdAt': createdAt?.millisecondsSinceEpoch,
+      // 'updatedAt': updatedAt?.millisecondsSinceEpoch,
+      // 'deletedAt': deletedAt?.millisecondsSinceEpoch,
     };
   }
 
@@ -52,15 +52,15 @@ class TreatmentModel {
           map['treatmentID'] != null ? map['treatmentID'] as String : null,
       treatment: map['treatment'] as String,
       hargaTreatment: map['hargaTreatment'] as String,
-      createdAt: map['createdAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int)
-          : null,
-      updatedAt: map['updatedAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int)
-          : null,
-      deletedAt: map['deletedAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['deletedAt'] as int)
-          : null,
+      // createdAt: map['createdAt'] != null
+      //     ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int)
+      //     : null,
+      // updatedAt: map['updatedAt'] != null
+      //     ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int)
+      //     : null,
+      // deletedAt: map['deletedAt'] != null
+      //     ? DateTime.fromMillisecondsSinceEpoch(map['deletedAt'] as int)
+      //     : null,
     );
   }
 
@@ -71,8 +71,13 @@ class TreatmentModel {
 
   @override
   String toString() {
-    return 'TreatmentModel(treatmentID: $treatmentID, treatment: $treatment, hargaTreatment: $hargaTreatment, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+    return 'TreatmentModel(treatmentID: $treatmentID, treatment: $treatment, hargaTreatment: $hargaTreatment)';
   }
+
+  //   @override
+  // String toString() {
+  //   return 'TreatmentModel(treatmentID: $treatmentID, treatment: $treatment, hargaTreatment: $hargaTreatment, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  // }
 
   @override
   bool operator ==(covariant TreatmentModel other) {
@@ -80,19 +85,21 @@ class TreatmentModel {
 
     return other.treatmentID == treatmentID &&
         other.treatment == treatment &&
-        other.hargaTreatment == hargaTreatment &&
-        other.createdAt == createdAt &&
-        other.updatedAt == updatedAt &&
-        other.deletedAt == deletedAt;
+        other.hargaTreatment == hargaTreatment
+        // other.createdAt == createdAt &&
+        // other.updatedAt == updatedAt &&
+        // other.deletedAt == deletedAt
+        ;
   }
 
   @override
   int get hashCode {
     return treatmentID.hashCode ^
         treatment.hashCode ^
-        hargaTreatment.hashCode ^
-        createdAt.hashCode ^
-        updatedAt.hashCode ^
-        deletedAt.hashCode;
+        hargaTreatment.hashCode 
+        // createdAt.hashCode ^
+        // updatedAt.hashCode ^
+        // deletedAt.hashCode
+        ;
   }
 }

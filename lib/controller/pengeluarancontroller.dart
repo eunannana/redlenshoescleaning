@@ -26,9 +26,9 @@ class PengeluaranController {
       harga: pmodel.harga,
       keterangan: pmodel.keterangan,
       tanggal: pmodel.tanggal,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      deletedAt: DateTime.fromMillisecondsSinceEpoch(0),
+      // createdAt: DateTime.now(),
+      // updatedAt: DateTime.now(),
+      // deletedAt: DateTime.fromMillisecondsSinceEpoch(0),
     );
 
     await docRef.update(pengeluaranModel.toMap());
@@ -40,9 +40,9 @@ class PengeluaranController {
       keterangan: pmodel.keterangan,
       harga: pmodel.harga,
       tanggal: pmodel.tanggal,
-      createdAt: pmodel.createdAt,
-      updatedAt: DateTime.now(),
-      deletedAt: pmodel.deletedAt,
+      // createdAt: pmodel.createdAt,
+      // updatedAt: DateTime.now(),
+      // deletedAt: pmodel.deletedAt,
     );
 
     await pengeluaranCollection

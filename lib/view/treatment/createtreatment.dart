@@ -18,9 +18,9 @@ class _CreateTreatmentState extends State<CreateTreatment> {
 
   String? treatment;
   String? hargaTreatment;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  DateTime? deletedAt;
+  // DateTime? createdAt;
+  // DateTime? updatedAt;
+  // DateTime? deletedAt;
 
   TextEditingController hargaController =
       TextEditingController(); // Add this line
@@ -191,8 +191,8 @@ class _CreateTreatmentState extends State<CreateTreatment> {
                             TreatmentModel tm = TreatmentModel(
                               treatment: treatment!,
                               hargaTreatment: hargaTreatment!,
-                              createdAt: DateTime.now(),
-                              updatedAt: DateTime.now(),
+                              // createdAt: DateTime.now(),
+                              // updatedAt: DateTime.now(),
                             );
                             treatmentController.addTreatment(tm);
                             ScaffoldMessenger.of(context).showSnackBar(
