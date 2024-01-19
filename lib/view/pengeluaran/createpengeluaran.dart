@@ -19,9 +19,6 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
   String? keterangan;
   String? harga;
   String? tanggal;
-  // DateTime? createdAt;
-  // DateTime? updatedAt;
-  // DateTime? deletedAt;
 
   TextEditingController hargaController =
       TextEditingController(); // Add this line
@@ -43,6 +40,7 @@ class _CreatePengeluaranState extends State<CreatePengeluaran> {
           'Tambahkan Pengeluaran',
           style: GoogleFonts.inter(
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
       ),

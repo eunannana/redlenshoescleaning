@@ -40,6 +40,7 @@ class _CreatePendapatanState extends State<CreatePendapatan> {
           'Tambahkan Pendapatan',
           style: GoogleFonts.inter(
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
       ),

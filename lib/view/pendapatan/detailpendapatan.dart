@@ -35,6 +35,7 @@ class DetailPendapatan extends StatelessWidget {
           'Detail Pendapatan',
           style: GoogleFonts.inter(
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
       ),

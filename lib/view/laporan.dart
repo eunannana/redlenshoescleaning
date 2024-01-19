@@ -30,7 +30,7 @@ class _LaporanState extends State<Laporan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: Container(
         child: _pages[_selectedIndex],
       ),
       bottomNavigationBar: ClipRRect(

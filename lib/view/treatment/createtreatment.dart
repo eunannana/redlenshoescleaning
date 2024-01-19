@@ -39,6 +39,7 @@ class _CreateTreatmentState extends State<CreateTreatment> {
           'Tambahkan Treatment',
           style: GoogleFonts.inter(
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
       ),

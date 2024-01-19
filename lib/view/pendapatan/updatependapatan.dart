@@ -139,6 +139,7 @@ class _UpdatePendapatanState extends State<UpdatePendapatan> {
           'Edit Pendapatan',
           style: GoogleFonts.inter(
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
       ),

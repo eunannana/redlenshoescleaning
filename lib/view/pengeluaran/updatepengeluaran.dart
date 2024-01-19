@@ -113,6 +113,7 @@ class _UpdatePengeluaranState extends State<UpdatePengeluaran> {
           'Edit Pengeluaran',
           style: GoogleFonts.inter(
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
       ),

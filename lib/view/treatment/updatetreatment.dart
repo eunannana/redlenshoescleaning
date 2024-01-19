@@ -109,6 +109,7 @@ class _UpdateTreatmentState extends State<UpdateTreatment> {
           'Edit Treatment',
           style: GoogleFonts.inter(
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
       ),
